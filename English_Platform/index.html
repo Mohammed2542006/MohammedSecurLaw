@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>English Academy</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--blue:#1a56db;--blue2:#eff6ff;--blue3:#3b82f6;--green:#16a34a;--green2:#f0fdf4;--amber:#d97706;--amber2:#fffbeb;--red:#dc2626;--red2:#fef2f2;--gray:#6b7280;--gray2:#f9fafb;--border:#e5e7eb;--text:#111827;--text2:#6b7280;--white:#fff;--r:12px;--sh:0 1px 4px rgba(0,0,0,.1)}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f3f4f6;color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
+.hide{display:none!important}
+.flex{display:flex;align-items:center}
+.between{display:flex;align-items:center;justify-content:space-between}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.center{text-align:center}
+.card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-bottom:12px}
+.card-sm{background:var(--white);border-radius:10px;box-shadow:var(--sh);padding:12px;margin-bottom:10px}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.b-blue{background:var(--blue2);color:var(--blue)}.b-green{background:var(--green2);color:var(--green)}.b-amber{background:var(--amber2);color:var(--amber)}.b-red{background:var(--red2);color:var(--red)}.b-gray{background:var(--gray2);color:var(--gray)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:.15s;font-family:inherit}
+.btn:active{transform:scale(.97)}
+.btn-full{width:100%}.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:#1d4ed8}.btn-green{background:var(--green);color:#fff}.btn-red{background:var(--red);color:#fff}.btn-gray{background:var(--gray2);color:var(--text2)}.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}.btn-sm{padding:7px 14px;font-size:13px}
+.inp{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;color:var(--text);background:var(--white);margin-bottom:12px;direction:rtl}
+.inp:focus{outline:none;border-color:var(--blue)}
+select.inp{cursor:pointer}
+.inp-lbl{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block}
+.pbar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.pfill{height:100%;background:var(--blue);border-radius:3px;transition:.3s}
+.stat{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:14px;text-align:center}
+.stat-n{font-size:26px;font-weight:800;line-height:1}
+.stat-l{font-size:11px;color:var(--text2);margin-top:3px}
+.topbar{position:fixed;top:0;right:0;left:0;max-width:480px;margin:0 auto;background:var(--white);border-bottom:1px solid var(--border);z-index:100;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.logo-box{width:36px;height:36px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;flex-shrink:0}
+.bnav{position:fixed;bottom:0;right:0;left:0;max-width:480px;margin:0 auto;background:var(--white);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:none;color:var(--text2);font-size:10px;gap:3px;font-family:inherit}
+.bni svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bni.on{color:var(--blue)}
+.bni span{font-size:10px;font-weight:500}
+.page{display:none;padding:70px 16px 88px;min-height:100vh}
+.page.on{display:block}
+.ldot{width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.av{width:40px;height:40px;border-radius:50%;background:var(--blue2);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;justify-content:center}
+.modal-bg.on{display:flex}
+.modal{background:var(--white);border-radius:20px 20px 0 0;padding:24px 20px;width:100%;max-width:480px;animation:sup .25s ease;max-height:90vh;overflow-y:auto}
+@keyframes sup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhandle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px}
+#toast{display:none;position:fixed;bottom:90px;right:16px;left:16px;max-width:480px;margin:0 auto;background:#111827;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;text-align:center;z-index:300}
+.div{height:1px;background:var(--border);margin:14px 0}
+.hero{background:linear-gradient(135deg,#1a56db,#3b82f6);color:#fff;border-radius:var(--r);padding:20px;margin-bottom:16px}
+.qopt{display:block;width:100%;text-align:right;padding:13px 16px;margin-bottom:10px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);font-size:14px;color:var(--text);cursor:pointer;transition:.15s;font-family:inherit}
+.qopt:hover{border-color:var(--blue3);background:var(--blue2)}
+.qopt.ok{border-color:var(--green);background:var(--green2);color:#166534}
+.qopt.no{border-color:var(--red);background:var(--red2);color:#991b1b}
+.cert-box{background:var(--white);border-radius:16px;box-shadow:0 4px 20px rgba(26,86,219,.15);padding:28px 20px;border:2px solid #bfdbfe;text-align:center}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{background:var(--gray2);padding:10px 12px;text-align:right;font-weight:600;color:var(--text2)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.tbl tr:last-child td{border:none}
+</style>
+</head>
+<body>
+
+<div id="scr-auth">
+  <div style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:24px">
+    <div class="center" style="margin-bottom:32px">
+      <div style="width:72px;height:72px;background:var(--blue);border-radius:20px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;font-weight:800;margin:0 auto 12px">E</div>
+      <div style="font-size:24px;font-weight:800">English Academy</div>
+      <div style="font-size:14px;color:var(--text2);margin-top:4px">منصة تعلم الإنجليزية الاحترافية</div>
+    </div>
+    <div id="v-login">
+      <div class="card" style="padding:24px">
+        <div style="font-size:18px;font-weight:700;margin-bottom:20px">تسجيل الدخول</div>
+        <label class="inp-lbl">البريد الإلكتروني</label>
+        <input class="inp" id="l-email" type="email" placeholder="example@email.com" dir="ltr">
+        <label class="inp-lbl">كلمة المرور</label>
+        <input class="inp" id="l-pass" type="password" placeholder="••••••••" dir="ltr">
+        <div id="l-err" style="color:var(--red);font-size:13px;margin-bottom:10px;display:none"></div>
+        <button class="btn btn-blue btn-full" onclick="doLogin()">دخول</button>
+        <div class="div"></div>
+        <button class="btn btn-gray btn-full" onclick="sw('v-login','v-register')">حساب جديد؟ سجل هنا</button>
+      </div>
+    </div>
+    <div id="v-register" class="hide">
+      <div class="card" style="padding:24px">
+        <div style="font-size:18px;font-weight:700;margin-bottom:20px">إنشاء حساب جديد</div>
+        <label class="inp-lbl">الاسم الكامل</label>
+        <input class="inp" id="r-name" type="text" placeholder="محمد أحمد">
+        <label class="inp-lbl">البريد الإلكتروني</label>
+        <input class="inp" id="r-email" type="email" placeholder="example@email.com" dir="ltr">
+        <label class="inp-lbl">كلمة المرور</label>
+        <input class="inp" id="r-pass" type="password" placeholder="6 أحرف على الأقل" dir="ltr">
+        <label class="inp-lbl">الدولة</label>
+        <select class="inp" id="r-country">
+          <option value="EG">مصر</option><option value="SA">السعودية</option><option value="AE">الإمارات</option><option value="US">الولايات المتحدة</option><option value="UK">بريطانيا</option><option value="OTHER">دولة أخرى</option>
+        </select>
+        <div id="r-err" style="color:var(--red);font-size:13px;margin-bottom:10px;display:none"></div>
+        <button class="btn btn-blue btn-full" onclick="doRegister()">إنشاء الحساب</button>
+        <div class="div"></div>
+        <button class="btn btn-gray btn-full" onclick="sw('v-register','v-login')">لديك حساب؟ ادخل هنا</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="scr-student" class="hide">
+  <div class="topbar">
+    <div class="flex" style="gap:8px">
+      <div class="logo-box">E</div>
+      <div><div style="font-size:15px;font-weight:700">English Academy</div><div style="font-size:11px;color:var(--text2)" id="s-role-lbl">طالب</div></div>
+    </div>
+    <button class="btn btn-gray btn-sm" onclick="doLogout()">خروج</button>
+  </div>
+  <div id="sp-home" class="page on">
+    <div class="hero">
+      <div style="font-size:13px;opacity:.85;margin-bottom:4px">أهلاً <span id="s-name">...</span></div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:14px">استمر في التعلم!</div>
+      <div id="s-hero-wrap" style="background:rgba(255,255,255,.2);border-radius:10px;padding:12px">
+        <div class="between" style="margin-bottom:6px"><span style="font-size:13px" id="s-hero-title">كورساتك</span><span style="font-size:13px;font-weight:700" id="s-hero-pct">0%</span></div>
+        <div style="height:6px;background:rgba(255,255,255,.3);border-radius:3px;overflow:hidden"><div id="s-hero-bar" style="height:100%;width:0%;background:#fff;border-radius:3px"></div></div>
+      </div>
+    </div>
+    <div class="g2" style="margin-bottom:16px" id="s-stats"></div>
+    <div id="s-live-card" class="card hide" style="border:1.5px solid var(--red2);cursor:pointer;margin-bottom:16px"></div>
+    <div class="between" style="margin-bottom:12px">
+      <div style="font-size:16px;font-weight:700">كورساتي</div>
+      <span style="font-size:13px;color:var(--blue);cursor:pointer;font-weight:600" onclick="sNav('courses')">عرض الكل</span>
+    </div>
+    <div id="s-my-courses"></div>
+  </div>
+  <div id="sp-courses" class="page">
+    <div class="between" style="margin-bottom:14px"><div style="font-size:18px;font-weight:700">الكورسات</div><span class="badge b-blue" id="s-course-count">...</span></div>
+    <div id="s-all-courses"></div>
+  </div>
+  <div id="sp-live" class="page">
+    <div style="font-size:18px;font-weight:700;margin-bottom:14px">المحاضرات والبث</div>
+    <div id="s-live-active"></div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:10px">المحاضرات المسجلة</div>
+    <div id="s-lectures"></div>
+  </div>
+  <div id="sp-tests" class="page">
+    <div style="font-size:18px;font-weight:700;margin-bottom:14px">الاختبارات</div>
+    <div id="s-quiz-list"></div>
+    <div id="s-quiz-active" class="hide"></div>
+  </div>
+  <div id="sp-profile" class="page">
+    <div class="card center" style="padding:24px">
+      <div id="s-av" style="width:72px;height:72px;border-radius:50%;background:var(--blue);color:#fff;font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">م</div>
+      <div style="font-size:20px;font-weight:700" id="s-pname">...</div>
+      <div style="font-size:13px;color:var(--text2);margin:4px 0 14px" id="s-pemail">...</div>
+    </div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:12px">شهاداتي</div>
+    <div id="s-certs"></div>
+    <div style="font-size:16px;font-weight:700;margin:16px 0 12px">طلبات الدفع</div>
+    <div id="s-payments"></div>
+    <div class="div"></div>
+    <button class="btn btn-gray btn-full" onclick="doLogout()">تسجيل الخروج</button>
+  </div>
+  <nav class="bnav" id="s-bnav">
+    <button class="bni on" id="sn-home" onclick="sNav('home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>الرئيسية</span></button>
+    <button class="bni" id="sn-courses" onclick="sNav('courses')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>الكورسات</span></button>
+    <button class="bni" id="sn-live" onclick="sNav('live')"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span>محاضرات</span></button>
+    <button class="bni" id="sn-tests" onclick="sNav('tests')"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>اختبارات</span></button>
+    <button class="bni" id="sn-profile" onclick="sNav('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>حسابي</span></button>
+  </nav>
+</div>
+
+<div id="scr-admin" class="hide">
+  <div class="topbar">
+    <div class="flex" style="gap:8px">
+      <div class="logo-box" style="background:var(--green)">A</div>
+      <div><div style="font-size:15px;font-weight:700">لوحة الإدارة</div><div style="font-size:11px;color:var(--text2)" id="a-role-lbl">مدير</div></div>
+    </div>
+    <button class="btn btn-gray btn-sm" onclick="doLogout()">خروج</button>
+  </div>
+  <div id="ap-dash" class="page on">
+    <div class="g2" style="margin-bottom:16px" id="a-stats"></div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:12px">طلبات الدفع المعلقة</div>
+    <div id="a-pay-list"></div>
+    <div style="font-size:16px;font-weight:700;margin:16px 0 12px">آخر الطلاب</div>
+    <div id="a-students-preview"></div>
+  </div>
+  <div id="ap-courses" class="page">
+    <div class="between" style="margin-bottom:14px"><div style="font-size:18px;font-weight:700">الكورسات</div><button class="btn btn-blue btn-sm" onclick="openModal('m-add-course')">+ إضافة</button></div>
+    <div id="a-courses-list"></div>
+  </div>
+  <div id="ap-students" class="page">
+    <div style="font-size:18px;font-weight:700;margin-bottom:14px">الطلاب</div>
+    <div id="a-all-students"></div>
+  </div>
+  <div id="ap-live" class="page">
+    <div class="between" style="margin-bottom:14px"><div style="font-size:18px;font-weight:700">البث المباشر</div><button class="btn btn-blue btn-sm" onclick="openModal('m-add-live')">+ جدولة</button></div>
+    <div id="a-live-list"></div>
+  </div>
+  <div id="ap-certs" class="page">
+    <div style="font-size:18px;font-weight:700;margin-bottom:14px">إصدار شهادة</div>
+    <div class="card">
+      <label class="inp-lbl">الطالب</label><select class="inp" id="cert-student"></select>
+      <label class="inp-lbl">الكورس</label><select class="inp" id="cert-course"></select>
+      <label class="inp-lbl">الدرجة (%)</label><input class="inp" type="number" id="cert-grade" placeholder="85">
+      <button class="btn btn-green btn-full" onclick="issueCert()">اصدار الشهادة</button>
+    </div>
+    <div style="font-size:16px;font-weight:700;margin:16px 0 10px">الشهادات الصادرة</div>
+    <div id="a-certs-list"></div>
+  </div>
+  <nav class="bnav">
+    <button class="bni on" id="an-dash" onclick="aNav('dash')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>الرئيسية</span></button>
+    <button class="bni" id="an-courses" onclick="aNav('courses')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>كورسات</span></button>
+    <button class="bni" id="an-students" onclick="aNav('students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>طلاب</span></button>
+    <button class="bni" id="an-live" onclick="aNav('live')"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span>بث مباشر</span></button>
+    <button class="bni" id="an-certs" onclick="aNav('certs')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><span>شهادات</span></button>
+  </nav>
+</div>
+
+<div id="scr-dev" class="hide">
+  <div class="topbar">
+    <div class="flex" style="gap:8px">
+      <div class="logo-box" style="background:#7c3aed">D</div>
+      <div><div style="font-size:15px;font-weight:700">لوحة المطور</div><div style="font-size:11px;color:var(--text2)">Full Control</div></div>
+    </div>
+    <button class="btn btn-gray btn-sm" onclick="doLogout()">خروج</button>
+  </div>
+  <div style="padding:70px 16px 30px">
+    <div class="g2" style="margin-bottom:16px" id="dev-stats"></div>
+    <div class="card">
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px">إجراءات سريعة</div>
+      <div class="g2">
+        <button class="btn btn-blue btn-sm" onclick="openModal('m-add-course')">+ كورس</button>
+        <button class="btn btn-green btn-sm" onclick="openModal('m-add-live')">+ بث مباشر</button>
+        <button class="btn btn-sm" style="background:#7c3aed;color:#fff" onclick="openModal('m-change-role')">تغيير دور</button>
+        <button class="btn btn-sm btn-outline" onclick="loadDevStats()">تحديث</button>
+      </div>
+    </div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:10px">المستخدمون</div>
+    <div id="dev-users"></div>
+    <div style="font-size:15px;font-weight:700;margin:16px 0 10px">الكورسات</div>
+    <div id="dev-courses"></div>
+    <div class="div"></div>
+    <button class="btn btn-gray btn-full" onclick="doLogout()">تسجيل الخروج</button>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="m-course" onclick="closeModal('m-course')"><div class="modal" onclick="event.stopPropagation()"><div class="mhandle"></div><div id="m-course-content"></div></div></div>
+
+<div class="modal-bg" id="m-pay" onclick="closeModal('m-pay')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhandle"></div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">الدفع والاشتراك</div>
+    <div id="m-pay-info" style="font-size:13px;color:var(--text2);margin-bottom:16px"></div>
+    <div class="card" style="background:var(--blue2)"><div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:4px">دفع من مصر</div><div style="font-size:12px;color:var(--text2)">فودافون كاش / انستاباي / بطاقة بنكية</div></div>
+    <div class="card" style="background:var(--green2)"><div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:4px">دفع من خارج مصر</div><div style="font-size:12px;color:var(--text2)">Stripe - بطاقة Visa / Mastercard</div></div>
+    <label class="inp-lbl">طريقة الدفع</label>
+    <select class="inp" id="pay-method"><option value="vodafone">فودافون كاش</option><option value="instapay">انستاباي</option><option value="card_eg">بطاقة مصرية</option><option value="stripe">Stripe (خارج مصر)</option></select>
+    <label class="inp-lbl">رقم المحفظة أو المرجع</label>
+    <input class="inp" id="pay-ref" type="text" placeholder="01xxxxxxxxx" dir="ltr">
+    <button class="btn btn-blue btn-full" onclick="submitPayment()">إرسال طلب الدفع</button>
+    <div style="font-size:12px;color:var(--text2);margin-top:10px;text-align:center">سيتم التواصل معك خلال 24 ساعة</div>
+  </div>
+</div>
+
+<div class="modal-bg" id="m-add-course" onclick="closeModal('m-add-course')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhandle"></div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة كورس</div>
+    <label class="inp-lbl">اسم الكورس</label><input class="inp" id="nc-title" type="text" placeholder="Grammar Level 3">
+    <label class="inp-lbl">الوصف</label><input class="inp" id="nc-desc" type="text" placeholder="وصف مختصر">
+    <label class="inp-lbl">المستوى</label>
+    <select class="inp" id="nc-level"><option value="beginner">مبتدئ</option><option value="intermediate">متوسط</option><option value="advanced">متقدم</option></select>
+    <div class="g2"><div><label class="inp-lbl">السعر جنيه</label><input class="inp" id="nc-egp" type="number" placeholder="0"></div><div><label class="inp-lbl">السعر دولار</label><input class="inp" id="nc-usd" type="number" placeholder="0"></div></div>
+    <label class="inp-lbl">اسم المعلم</label><input class="inp" id="nc-teacher" type="text" placeholder="أ. سارة محمد">
+    <label class="inp-lbl">أيقونة</label><input class="inp" id="nc-emoji" type="text" placeholder="📚" value="📚">
+    <button class="btn btn-blue btn-full" onclick="addCourse()">إضافة الكورس</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="m-add-lecture" onclick="closeModal('m-add-lecture')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhandle"></div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة محاضرة</div>
+    <input type="hidden" id="nl-course-id">
+    <label class="inp-lbl">عنوان المحاضرة</label><input class="inp" id="nl-title" type="text" placeholder="Present Simple Tense">
+    <label class="inp-lbl">YouTube Video ID</label><input class="inp" id="nl-yt" type="text" placeholder="dQw4w9WgXcQ" dir="ltr">
+    <div style="font-size:11px;color:var(--text2);margin-top:-8px;margin-bottom:12px">من رابط يوتيوب: youtube.com/watch?v=<b>الكود هنا</b></div>
+    <label class="inp-lbl">المدة (دقيقة)</label><input class="inp" id="nl-dur" type="number" placeholder="30">
+    <label class="inp-lbl">الترتيب</label><input class="inp" id="nl-order" type="number" placeholder="1">
+    <div class="flex" style="gap:10px;margin-bottom:14px"><input type="checkbox" id="nl-free" style="width:18px;height:18px"><label for="nl-free" style="font-size:14px">محاضرة مجانية</label></div>
+    <button class="btn btn-blue btn-full" onclick="addLecture()">إضافة المحاضرة</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="m-add-live" onclick="closeModal('m-add-live')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhandle"></div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">جدولة بث مباشر</div>
+    <label class="inp-lbl">عنوان الجلسة</label><input class="inp" id="nl-live-title" type="text" placeholder="Grammar Level 2">
+    <label class="inp-lbl">اسم المعلم</label><input class="inp" id="nl-live-teacher" type="text" placeholder="أ. سارة محمد">
+    <label class="inp-lbl">الموعد</label><input class="inp" id="nl-live-time" type="datetime-local">
+    <label class="inp-lbl">اسم الغرفة (انجليزي بدون مسافات)</label><input class="inp" id="nl-live-room" type="text" placeholder="englishacademy-lesson1" dir="ltr">
+    <div class="flex" style="gap:10px;margin-bottom:14px"><input type="checkbox" id="nl-live-active" style="width:18px;height:18px"><label for="nl-live-active" style="font-size:14px">تفعيل مباشرة الآن</label></div>
+    <button class="btn btn-blue btn-full" onclick="addLive()">جدولة البث</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="m-change-role" onclick="closeModal('m-change-role')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhandle"></div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">تغيير دور مستخدم</div>
+    <label class="inp-lbl">البريد الإلكتروني</label><input class="inp" id="cr-email" type="email" placeholder="user@email.com" dir="ltr">
+    <label class="inp-lbl">الدور الجديد</label>
+    <select class="inp" id="cr-role"><option value="student">student - طالب</option><option value="teacher">teacher - معلم</option><option value="admin">admin - مدير</option><option value="dev">dev - مطور</option></select>
+    <button class="btn btn-full" style="background:#7c3aed;color:#fff" onclick="changeRole()">تغيير الدور</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const SURL='https://xevhwajzmlgepckwiyfz.supabase.co';
+const SKEY='sb_publishable_Zy1Cv1C2Al5y8Be5a2C5FA_9hcyjo0m';
+const sb=supabase.createClient(SURL,SKEY);
+let ME=null,PROFILE=null,PAY_COURSE=null,CUR_QUIZ=null;
+let QS={i:0,sc:0,ans:false,done:false,questions:[]};
+
+window.addEventListener('DOMContentLoaded',async()=>{
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){ME=session.user;await loadProfile();}
+  else showScr('auth');
+});
+sb.auth.onAuthStateChange(async(ev,session)=>{
+  if(ev==='SIGNED_IN'&&session){ME=session.user;await loadProfile();}
+  if(ev==='SIGNED_OUT'){ME=null;PROFILE=null;showScr('auth');}
+});
+
+async function loadProfile(){
+  const {data}=await sb.from('profiles').select('*').eq('id',ME.id).single();
+  PROFILE=data;
+  if(!PROFILE){showScr('auth');return;}
+  if(PROFILE.role==='admin'||PROFILE.role==='teacher'){showScr('admin');loadAdminData();}
+  else if(PROFILE.role==='dev'){showScr('dev');loadDevStats();}
+  else{showScr('student');loadStudentData();}
+}
+
+async function doLogin(){
+  const email=q('#l-email').value.trim(),pass=q('#l-pass').value;
+  if(!email||!pass)return toast('أدخل البريد وكلمة المرور');
+  const {error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error)showErr('#l-err',error.message);
+}
+
+async function doRegister(){
+  const name=q('#r-name').value.trim(),email=q('#r-email').value.trim(),pass=q('#r-pass').value,country=q('#r-country').value;
+  if(!name||!email||!pass)return toast('أكمل جميع الحقول');
+  if(pass.length<6)return toast('كلمة المرور 6 أحرف على الأقل');
+  const {error}=await sb.auth.signUp({email,password:pass,options:{data:{name,country}}});
+  if(error){showErr('#r-err',error.message);return;}
+  toast('تم إنشاء الحساب! يمكنك الدخول الآن');
+  sw('v-register','v-login');
+}
+
+async function doLogout(){await sb.auth.signOut();}
+
+async function loadStudentData(){
+  q('#s-name').textContent=PROFILE.name.split(' ')[0];
+  q('#s-pname').textContent=PROFILE.name;
+  q('#s-pemail').textContent=ME.email;
+  q('#s-av').textContent=PROFILE.name[0];
+  const {data:enroll}=await sb.from('enrollments').select('*').eq('student_id',ME.id);
+  const {data:certs}=await sb.from('certificates').select('*').eq('student_id',ME.id);
+  const {data:atts}=await sb.from('attempts').select('*').eq('student_id',ME.id);
+  const en=enroll||[],ct=certs||[],at=atts||[];
+  const avg=en.length?Math.round(en.reduce((a,b)=>a+b.progress,0)/en.length):0;
+  q('#s-stats').innerHTML=`<div class="stat"><div class="stat-n" style="color:var(--blue)">${en.length}</div><div class="stat-l">كورسات</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${ct.length}</div><div class="stat-l">شهادات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${avg}%</div><div class="stat-l">تقدم</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${at.length}</div><div class="stat-l">اختبارات</div></div>`;
+  if(en.length){
+    const {data:c}=await sb.from('courses').select('title').eq('id',en[0].course_id).single();
+    if(c)q('#s-hero-title').textContent=c.title;
+    q('#s-hero-pct').textContent=en[0].progress+'%';
+    q('#s-hero-bar').style.width=en[0].progress+'%';
+  }
+  const {data:live}=await sb.from('live_sessions').select('*').eq('is_active',true).limit(1);
+  if(live&&live.length){
+    const s=live[0];
+    q('#s-live-card').classList.remove('hide');
+    q('#s-live-card').innerHTML=`<div class="between"><div class="flex" style="gap:10px"><div style="width:44px;height:44px;background:var(--red2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px">📡</div><div><div style="font-size:14px;font-weight:700">${s.title}</div><div style="font-size:12px;color:var(--text2)">${s.teacher_name||''}</div></div></div><div class="center"><div class="ldot" style="margin:0 auto 4px"></div><div style="font-size:11px;color:var(--red);font-weight:700">مباشر</div></div></div>`;
+    q('#s-live-card').onclick=()=>window.open('https://meet.jit.si/'+s.jitsi_room,'_blank');
+  }
+  if(en.length){
+    const {data:courses}=await sb.from('courses').select('*').in('id',en.map(e=>e.course_id));
+    q('#s-my-courses').innerHTML=(courses||[]).map(c=>{
+      const e=en.find(x=>x.course_id===c.id);
+      return `<div class="card-sm flex" style="gap:12px;cursor:pointer" onclick="openCourse('${c.id}')"><div style="width:48px;height:48px;background:var(--blue2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">${c.emoji||'📚'}</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:3px">${c.title}</div><div style="font-size:12px;color:var(--text2);margin-bottom:6px">${e.payment_status==='paid'||c.price_egp===0?'مفعّل':'في الانتظار'}</div><div class="pbar"><div class="pfill" style="width:${e.progress}%"></div></div></div><div style="font-size:13px;font-weight:700;color:var(--blue)">${e.progress}%</div></div>`;
+    }).join('');
+  }else q('#s-my-courses').innerHTML='<div style="color:var(--text2);font-size:14px;padding:10px 0">لم تسجل في أي كورس بعد</div>';
+  await loadAllCoursesStudent();await loadLectures();await loadQuizzesStudent();await loadStudentCerts();await loadStudentPayments();
+}
+
+async function loadAllCoursesStudent(){
+  const {data:courses}=await sb.from('courses').select('*').eq('is_published',true);
+  q('#s-course-count').textContent=(courses||[]).length+' كورس';
+  const lv={beginner:'b-green',intermediate:'b-blue',advanced:'b-amber'};
+  const lt={beginner:'مبتدئ',intermediate:'متوسط',advanced:'متقدم'};
+  q('#s-all-courses').innerHTML=(courses||[]).map(c=>`<div class="card" style="cursor:pointer" onclick="openCourse('${c.id}')"><div class="between" style="margin-bottom:8px"><span class="badge ${lv[c.level]||'b-gray'}">${lt[c.level]||c.level}</span><span style="font-size:14px;font-weight:700;color:var(--blue)">${c.price_egp===0?'مجاني':c.price_egp+' ج.م'}</span></div><div class="flex" style="gap:12px"><div style="font-size:32px">${c.emoji||'📚'}</div><div><div style="font-size:15px;font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">${c.teacher_name||''}</div></div></div></div>`).join('');
+}
+
+async function openCourse(id){
+  const {data:c}=await sb.from('courses').select('*').eq('id',id).single();if(!c)return;
+  const {data:lecs}=await sb.from('lectures').select('*').eq('course_id',id).order('order_num');
+  const {data:enroll}=await sb.from('enrollments').select('*').eq('student_id',ME.id).eq('course_id',id).single();
+  const lv={beginner:'b-green',intermediate:'b-blue',advanced:'b-amber'};
+  const lt={beginner:'مبتدئ',intermediate:'متوسط',advanced:'متقدم'};
+  q('#m-course-content').innerHTML=`<div class="center" style="font-size:48px;margin-bottom:12px">${c.emoji||'📚'}</div><div class="between" style="margin-bottom:10px"><div style="font-size:18px;font-weight:700;flex:1">${c.title}</div><span class="badge ${lv[c.level]||'b-gray'}">${lt[c.level]||c.level}</span></div><div style="font-size:13px;color:var(--text2);margin-bottom:4px">${c.description||''}</div><div class="flex" style="gap:16px;margin-bottom:16px"><span style="font-size:13px">${c.teacher_name||''}</span><span style="font-size:13px;font-weight:700;color:var(--blue)">${c.price_egp===0?'مجاني':c.price_egp+' ج.م / '+(c.price_usd||0)+' USD'}</span></div>${enroll?`<div class="pbar" style="margin-bottom:16px;height:8px"><div class="pfill" style="width:${enroll.progress}%"></div></div>`:''}<div style="font-size:15px;font-weight:700;margin-bottom:10px">المحاضرات (${(lecs||[]).length})</div>${(lecs||[]).map((l,i)=>`<div class="flex" style="padding:10px 0;border-bottom:1px solid var(--border);gap:10px;cursor:pointer" onclick="playLec('${l.youtube_id||''}','${l.title}')"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue2);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${i+1}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${l.title}</div><div style="font-size:11px;color:var(--text2)">${l.duration_minutes||30} دقيقة</div></div><div style="width:32px;height:32px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>`).join('')||'<div style="color:var(--text2);font-size:13px;padding:10px 0">لم تُضف محاضرات بعد</div>'}<div style="margin-top:16px">${enroll?`<button class="btn btn-green btn-full" onclick="updProg('${c.id}')">تحديث تقدمي +10%</button>`:c.price_egp===0?`<button class="btn btn-blue btn-full" onclick="enrollFree('${c.id}')">سجل مجاناً</button>`:`<button class="btn btn-blue btn-full" onclick="openPayModal('${c.id}','${c.title}',${c.price_egp},${c.price_usd||0})">ادفع واشترك</button>`}</div>`;
+  openModal('m-course');
+}
+
+function playLec(ytId,title){if(!ytId)return toast('لم يُضف رابط هذه المحاضرة بعد');window.open('https://youtube.com/watch?v='+ytId,'_blank');}
+
+async function enrollFree(cid){
+  const {error}=await sb.from('enrollments').insert({student_id:ME.id,course_id:cid,payment_status:'free',progress:0});
+  if(!error){toast('تم التسجيل!');closeModal('m-course');loadStudentData();}
+  else if(error.code==='23505')toast('أنت مسجل مسبقاً');
+  else toast('خطأ: '+error.message);
+}
+
+async function updProg(cid){
+  const {data:en}=await sb.from('enrollments').select('progress').eq('student_id',ME.id).eq('course_id',cid).single();
+  if(!en)return;
+  const np=Math.min(100,(en.progress||0)+10);
+  await sb.from('enrollments').update({progress:np}).eq('student_id',ME.id).eq('course_id',cid);
+  toast('تم تحديث تقدمك إلى '+np+'%');closeModal('m-course');loadStudentData();
+}
+
+function openPayModal(cid,ct,egp,usd){PAY_COURSE={id:cid,title:ct,priceEgp:egp,priceUsd:usd};q('#m-pay-info').textContent='الكورس: '+ct+' | السعر: '+egp+' ج.م / '+usd+' USD';closeModal('m-course');openModal('m-pay');}
+
+async function submitPayment(){
+  if(!PAY_COURSE)return;
+  const ref=q('#pay-ref').value.trim();if(!ref)return toast('أدخل رقم المرجع');
+  const {error}=await sb.from('payment_requests').insert({student_id:ME.id,student_name:PROFILE.name,course_id:PAY_COURSE.id,course_title:PAY_COURSE.title,amount:PAY_COURSE.priceEgp,currency:q('#pay-method').value==='stripe'?'USD':'EGP',method:q('#pay-method').value,phone_or_ref:ref,status:'pending'});
+  if(!error){toast('تم إرسال طلب الدفع!');closeModal('m-pay');await sb.from('enrollments').upsert({student_id:ME.id,course_id:PAY_COURSE.id,payment_status:'pending',progress:0},{onConflict:'student_id,course_id'});loadStudentData();}
+  else toast('خطأ: '+error.message);
+}
+
+async function loadLectures(){
+  const {data:live}=await sb.from('live_sessions').select('*').eq('is_active',true);
+  q('#s-live-active').innerHTML=(live&&live.length)?live.map(s=>`<div class="card" style="background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;margin-bottom:12px;cursor:pointer" onclick="window.open('https://meet.jit.si/${s.jitsi_room}','_blank')"><div class="flex" style="gap:8px;margin-bottom:10px"><div class="ldot"></div><div style="font-size:12px;font-weight:700">مباشر الآن</div></div><div style="font-size:16px;font-weight:700;margin-bottom:4px">${s.title}</div><div style="font-size:12px;opacity:.85">${s.teacher_name||''}</div><button class="btn btn-full" style="background:rgba(255,255,255,.25);color:#fff;margin-top:12px">انضم الآن</button></div>`).join(''):'';
+  const {data:lecs}=await sb.from('lectures').select('*,courses(title)').order('order_num').limit(20);
+  q('#s-lectures').innerHTML=(lecs||[]).map(l=>`<div class="card-sm flex" style="gap:12px;cursor:pointer" onclick="${l.youtube_id?`window.open('https://youtube.com/watch?v=${l.youtube_id}','_blank')`:'toast(\"لم يُضف رابط هذه المحاضرة\")'}"><div style="width:50px;height:50px;background:var(--red2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">🎬</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:2px">${l.title}</div><div style="font-size:12px;color:var(--text2)">${l.courses?.title||''} · ${l.duration_minutes||30} دقيقة</div></div><div style="width:36px;height:36px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>`).join('')||'<div style="color:var(--text2);font-size:14px">لا توجد محاضرات متاحة حالياً</div>';
+}
+
+async function loadQuizzesStudent(){
+  const {data:quizzes}=await sb.from('quizzes').select('*,courses(title)');
+  if(!quizzes||!quizzes.length){q('#s-quiz-list').innerHTML='<div style="color:var(--text2);font-size:14px">لا توجد اختبارات متاحة</div>';return;}
+  q('#s-quiz-list').innerHTML=quizzes.map(qz=>`<div class="card"><div class="between"><div><div style="font-size:15px;font-weight:700;margin-bottom:3px">${qz.title}</div><div style="font-size:12px;color:var(--text2)">${qz.courses?.title||''} · درجة النجاح: ${qz.pass_score}%</div></div><button class="btn btn-blue btn-sm" onclick="startQuiz('${qz.id}','${qz.title}')">ابدأ</button></div></div>`).join('');
+}
+
+async function startQuiz(qid,qt){
+  const {data:questions}=await sb.from('questions').select('*').eq('quiz_id',qid).order('order_num');
+  if(!questions||!questions.length)return toast('لم تُضف أسئلة بعد');
+  CUR_QUIZ={id:qid,title:qt};QS={i:0,sc:0,ans:false,done:false,questions};
+  q('#s-quiz-list').classList.add('hide');q('#s-quiz-active').classList.remove('hide');renderQ();
+}
+
+function renderQ(){
+  if(QS.done){renderQResult();return;}
+  const qq=QS.questions[QS.i];
+  const opts=[['A',qq.option_a],['B',qq.option_b],['C',qq.option_c],['D',qq.option_d]].filter(o=>o[1]);
+  const pct=Math.round((QS.i/QS.questions.length)*100);
+  q('#s-quiz-active').innerHTML=`<div class="between" style="margin-bottom:10px"><span style="font-size:13px;color:var(--text2)">سؤال ${QS.i+1}/${QS.questions.length}</span><span class="badge b-blue">النقاط: ${QS.sc}</span></div><div class="pbar" style="margin-bottom:20px;height:8px"><div class="pfill" style="width:${pct}%"></div></div><div class="card" style="border:1.5px solid #bfdbfe;margin-bottom:16px"><div style="font-size:15px;font-weight:700;line-height:1.5">${qq.question_text}</div></div><div id="qopts">${opts.map(([k,v])=>`<button class="qopt" id="qo-${k}" onclick="ansQ('${k}','${qq.correct_option}')">${k}. ${v}</button>`).join('')}</div><button id="qnxt" class="btn btn-blue btn-full hide" style="margin-top:8px" onclick="nxtQ()">التالي</button>`;
+}
+
+function ansQ(ch,correct){
+  if(QS.ans)return;QS.ans=true;
+  document.querySelectorAll('.qopt').forEach(b=>{b.style.pointerEvents='none';const k=b.id.replace('qo-','');if(k===correct)b.classList.add('ok');else if(k===ch&&ch!==correct)b.classList.add('no');});
+  if(ch===correct)QS.sc++;
+  q('#qnxt').classList.remove('hide');
+}
+
+function nxtQ(){QS.i++;QS.ans=false;if(QS.i>=QS.questions.length)QS.done=true;renderQ();}
+
+async function renderQResult(){
+  const pct=Math.round((QS.sc/QS.questions.length)*100),pass=pct>=60;
+  await sb.from('attempts').insert({student_id:ME.id,quiz_id:CUR_QUIZ.id,score:pct,passed:pass});
+  q('#s-quiz-active').innerHTML=`<div class="card center" style="padding:32px 20px;border:2px solid ${pass?'#86efac':'#fca5a5'}"><div style="font-size:56px;margin-bottom:12px">${pass?'🏆':'😔'}</div><div style="font-size:22px;font-weight:800;margin-bottom:6px">${pass?'أحسنت! ناجح':'حاول مرة أخرى'}</div><div style="font-size:15px;color:var(--text2);margin-bottom:16px">${QS.sc}/${QS.questions.length} صحيحة</div><div style="font-size:40px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};margin-bottom:20px">${pct}%</div><div class="flex" style="gap:8px"><button class="btn btn-gray" style="flex:1" onclick="q('#s-quiz-active').classList.add('hide');q('#s-quiz-list').classList.remove('hide')">العودة</button>${pass?`<button class="btn btn-green" style="flex:1" onclick="sNav('profile')">شهاداتي</button>`:''}</div></div>`;
+}
+
+async function loadStudentCerts(){
+  const {data:certs}=await sb.from('certificates').select('*,courses(title)').eq('student_id',ME.id);
+  if(!certs||!certs.length){q('#s-certs').innerHTML='<div style="color:var(--text2);font-size:14px;padding:10px 0">لا توجد شهادات بعد</div>';return;}
+  q('#s-certs').innerHTML=certs.map(c=>`<div class="cert-box" style="margin-bottom:14px"><div style="font-size:36px;margin-bottom:6px">🎓</div><div style="font-size:10px;letter-spacing:3px;color:var(--text2);margin-bottom:12px">ENGLISH ACADEMY</div><div style="font-size:12px;color:var(--text2);margin-bottom:4px">تُمنح لـ</div><div style="font-size:22px;font-weight:800;color:var(--blue);margin-bottom:4px">${PROFILE.name}</div><div style="font-size:12px;color:var(--text2);margin-bottom:6px">لإتمامه بنجاح</div><div style="font-size:16px;font-weight:700;margin-bottom:16px">${c.courses?.title||''}</div><div class="flex" style="justify-content:space-around;border-top:1px solid var(--border);padding-top:14px"><div><div style="font-size:10px;color:var(--text2)">الدرجة</div><div style="font-weight:700;color:var(--green)">${c.grade}%</div></div><div><div style="font-size:10px;color:var(--text2)">التاريخ</div><div style="font-weight:700;font-size:12px">${new Date(c.issued_at).toLocaleDateString('ar-EG')}</div></div><div><div style="font-size:10px;color:var(--text2)">#</div><div style="font-weight:700;font-size:11px">${c.cert_number||''}</div></div></div><button class="btn btn-outline btn-sm btn-full" style="margin-top:12px" onclick="navigator.clipboard&&navigator.clipboard.writeText('${c.cert_number}');toast('تم نسخ رقم الشهادة')">مشاركة الشهادة</button></div>`).join('');
+}
+
+async function loadStudentPayments(){
+  const {data:pays}=await sb.from('payment_requests').select('*').eq('student_id',ME.id).order('created_at',{ascending:false});
+  if(!pays||!pays.length){q('#s-payments').innerHTML='<div style="color:var(--text2);font-size:13px">لا توجد طلبات دفع</div>';return;}
+  const sc={pending:'b-amber',approved:'b-green',rejected:'b-red'};
+  const st={pending:'في الانتظار',approved:'مقبول',rejected:'مرفوض'};
+  q('#s-payments').innerHTML=pays.map(p=>`<div class="card-sm between" style="margin-bottom:8px"><div><div style="font-size:13px;font-weight:600">${p.course_title||''}</div><div style="font-size:11px;color:var(--text2)">${p.amount} ${p.currency} · ${p.method}</div></div><span class="badge ${sc[p.status]||'b-gray'}">${st[p.status]||p.status}</span></div>`).join('');
+}
+
+function sNav(pg){
+  document.querySelectorAll('#scr-student .page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('#s-bnav .bni').forEach(b=>b.classList.remove('on'));
+  q('#sp-'+pg).classList.add('on');q('#sn-'+pg).classList.add('on');window.scrollTo(0,0);
+}
+
+async function loadAdminData(){
+  q('#a-role-lbl').textContent=PROFILE.role==='dev'?'مطور':PROFILE.role==='teacher'?'معلم':'مدير';
+  const {data:students}=await sb.from('profiles').select('*');
+  const {data:courses}=await sb.from('courses').select('*');
+  const {data:pays}=await sb.from('payment_requests').select('*').eq('status','pending');
+  const {data:certs}=await sb.from('certificates').select('*');
+  q('#a-stats').innerHTML=`<div class="stat"><div class="stat-n" style="color:var(--blue)">${(students||[]).length}</div><div class="stat-l">المستخدمون</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${(courses||[]).length}</div><div class="stat-l">الكورسات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${(pays||[]).length}</div><div class="stat-l">طلبات دفع</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${(certs||[]).length}</div><div class="stat-l">شهادات</div></div>`;
+  const {data:allPays}=await sb.from('payment_requests').select('*').eq('status','pending').order('created_at',{ascending:false});
+  q('#a-pay-list').innerHTML=(allPays||[]).length===0?'<div style="color:var(--text2);font-size:13px;padding:10px 0">لا توجد طلبات معلقة</div>':(allPays||[]).map(p=>`<div class="card-sm" style="margin-bottom:8px"><div style="margin-bottom:8px"><div style="font-size:13px;font-weight:700">${p.student_name||''}</div><div style="font-size:11px;color:var(--text2)">${p.course_title||''} · ${p.amount} ${p.currency}</div><div style="font-size:11px;color:var(--text2)">${p.method} · ${p.phone_or_ref||''}</div></div><div class="flex" style="gap:8px"><button class="btn btn-green btn-sm" style="flex:1" onclick="approvePay('${p.id}','${p.student_id}','${p.course_id}')">قبول</button><button class="btn btn-red btn-sm" style="flex:1" onclick="rejectPay('${p.id}')">رفض</button></div></div>`).join('');
+  q('#a-students-preview').innerHTML=(students||[]).slice(0,5).map(s=>`<div class="card-sm flex" style="gap:10px;margin-bottom:8px"><div class="av">${(s.name||'?')[0]}</div><div style="flex:1"><div style="font-size:14px;font-weight:600">${s.name}</div><div style="font-size:12px;color:var(--text2)">${s.email||''}</div></div><span class="badge b-blue">${s.role}</span></div>`).join('');
+  await loadAdminCourses();await loadAdminStudents();await loadAdminLive();await loadAdminCerts();await loadCertSelects();
+}
+
+async function approvePay(pid,sid,cid){
+  await sb.from('payment_requests').update({status:'approved'}).eq('id',pid);
+  await sb.from('enrollments').upsert({student_id:sid,course_id:cid,payment_status:'paid',progress:0},{onConflict:'student_id,course_id'});
+  toast('تم قبول الدفع وتفعيل الكورس');loadAdminData();
+}
+async function rejectPay(pid){await sb.from('payment_requests').update({status:'rejected'}).eq('id',pid);toast('تم رفض الطلب');loadAdminData();}
+
+async function loadAdminCourses(){
+  const {data:courses}=await sb.from('courses').select('*').order('created_at',{ascending:false});
+  q('#a-courses-list').innerHTML=(courses||[]).map(c=>`<div class="card"><div class="between" style="margin-bottom:8px"><div class="flex" style="gap:10px"><div style="font-size:28px">${c.emoji||'📚'}</div><div><div style="font-size:14px;font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--text2)">${c.teacher_name||''} · ${c.price_egp===0?'مجاني':c.price_egp+' ج.م'}</div></div></div></div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="openAddLecture('${c.id}')">+ محاضرة</button><button class="btn btn-red btn-sm" onclick="delCourse('${c.id}')">حذف</button></div></div>`).join('')||'<div style="color:var(--text2);font-size:14px">لا توجد كورسات</div>';
+}
+
+async function loadAdminStudents(){
+  const {data:st}=await sb.from('profiles').select('*').order('created_at',{ascending:false});
+  q('#a-all-students').innerHTML=`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>الاسم</th><th>البريد</th><th>الدور</th><th>الدولة</th></tr></thead><tbody>${(st||[]).map(s=>`<tr><td style="font-weight:600">${s.name}</td><td style="font-size:12px;direction:ltr">${s.email||''}</td><td><span class="badge b-blue" style="font-size:10px">${s.role}</span></td><td>${s.country||''}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+async function loadAdminLive(){
+  const {data:sessions}=await sb.from('live_sessions').select('*').order('created_at',{ascending:false});
+  q('#a-live-list').innerHTML=(sessions||[]).map(s=>`<div class="card"><div class="between" style="margin-bottom:10px"><div><div style="font-size:14px;font-weight:700">${s.title}</div><div style="font-size:12px;color:var(--text2)">${s.teacher_name||''}</div></div>${s.is_active?'<div class="flex" style="gap:6px"><div class="ldot"></div><span style="font-size:12px;color:var(--red);font-weight:700">مباشر</span></div>':'<span class="badge b-gray">غير نشط</span>'}</div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="window.open('https://meet.jit.si/${s.jitsi_room}','_blank')">فتح Jitsi</button><button class="btn btn-sm" style="background:${s.is_active?'var(--amber2)':'var(--green2)'};color:${s.is_active?'var(--amber)':'var(--green)'}" onclick="toggleLive('${s.id}',${s.is_active})">${s.is_active?'إيقاف':'تفعيل'}</button><button class="btn btn-red btn-sm" onclick="delLive('${s.id}')">حذف</button></div></div>`).join('')||'<div style="color:var(--text2);font-size:14px">لا توجد جلسات</div>';
+}
+
+async function toggleLive(id,cur){await sb.from('live_sessions').update({is_active:!cur}).eq('id',id);toast(cur?'تم إيقاف البث':'تم تفعيل البث');loadAdminLive();}
+async function delLive(id){if(!confirm('حذف؟'))return;await sb.from('live_sessions').delete().eq('id',id);toast('تم الحذف');loadAdminLive();}
+async function delCourse(id){if(!confirm('حذف هذا الكورس؟'))return;await sb.from('courses').delete().eq('id',id);toast('تم حذف الكورس');loadAdminCourses();}
+
+async function loadAdminCerts(){
+  const {data:certs}=await sb.from('certificates').select('*,profiles(name),courses(title)').order('issued_at',{ascending:false});
+  q('#a-certs-list').innerHTML=(certs||[]).length===0?'<div style="color:var(--text2);font-size:14px">لا توجد شهادات</div>':(certs||[]).map(c=>`<div class="card-sm between" style="margin-bottom:8px"><div><div style="font-size:13px;font-weight:700">${c.profiles?.name||''}</div><div style="font-size:11px;color:var(--text2)">${c.courses?.title||''} · ${c.grade}%</div></div><span class="badge b-green">صادرة</span></div>`).join('');
+}
+
+async function loadCertSelects(){
+  const {data:students}=await sb.from('profiles').select('id,name');
+  const {data:courses}=await sb.from('courses').select('id,title');
+  q('#cert-student').innerHTML=(students||[]).map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  q('#cert-course').innerHTML=(courses||[]).map(c=>`<option value="${c.id}">${c.title}</option>`).join('');
+}
+
+async function issueCert(){
+  const sid=q('#cert-student').value,cid=q('#cert-course').value,grade=parseInt(q('#cert-grade').value)||0;
+  if(!sid||!cid)return toast('اختر طالباً وكورساً');
+  const cn='ENG-'+new Date().getFullYear()+'-'+Math.floor(Math.random()*9000+1000);
+  const {error}=await sb.from('certificates').insert({student_id:sid,course_id:cid,grade,cert_number:cn});
+  if(!error){toast('تم إصدار الشهادة '+cn);loadAdminCerts();}else toast('خطأ: '+error.message);
+}
+
+async function addCourse(){
+  const title=q('#nc-title').value.trim();if(!title)return toast('أدخل اسم الكورس');
+  const {error}=await sb.from('courses').insert({title,description:q('#nc-desc').value.trim(),level:q('#nc-level').value,price_egp:parseInt(q('#nc-egp').value)||0,price_usd:parseInt(q('#nc-usd').value)||0,teacher_name:q('#nc-teacher').value.trim(),emoji:q('#nc-emoji').value.trim()||'📚',is_published:true});
+  if(!error){toast('تم إضافة الكورس');closeModal('m-add-course');loadAdminCourses();}else toast('خطأ: '+error.message);
+}
+
+function openAddLecture(cid){q('#nl-course-id').value=cid;openModal('m-add-lecture');}
+
+async function addLecture(){
+  const title=q('#nl-title').value.trim(),cid=q('#nl-course-id').value;
+  if(!title||!cid)return toast('أدخل العنوان');
+  const {error}=await sb.from('lectures').insert({course_id:cid,title,youtube_id:q('#nl-yt').value.trim(),duration_minutes:parseInt(q('#nl-dur').value)||30,order_num:parseInt(q('#nl-order').value)||1,is_free:q('#nl-free').checked});
+  if(!error){toast('تم إضافة المحاضرة');closeModal('m-add-lecture');loadAdminCourses();}else toast('خطأ: '+error.message);
+}
+
+async function addLive(){
+  const title=q('#nl-live-title').value.trim(),room=q('#nl-live-room').value.trim();
+  if(!title||!room)return toast('أدخل العنوان والغرفة');
+  const {error}=await sb.from('live_sessions').insert({title,jitsi_room:room,teacher_name:q('#nl-live-teacher').value.trim(),scheduled_at:q('#nl-live-time').value||null,is_active:q('#nl-live-active').checked});
+  if(!error){toast('تم جدولة البث');closeModal('m-add-live');loadAdminLive();}else toast('خطأ: '+error.message);
+}
+
+function aNav(pg){
+  document.querySelectorAll('#scr-admin .page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('#scr-admin .bnav .bni').forEach(b=>b.classList.remove('on'));
+  q('#ap-'+pg).classList.add('on');q('#an-'+pg).classList.add('on');window.scrollTo(0,0);
+}
+
+async function loadDevStats(){
+  const [a,b,c,d,e]=await Promise.all([sb.from('profiles').select('*',{count:'exact',head:true}),sb.from('courses').select('*',{count:'exact',head:true}),sb.from('enrollments').select('*',{count:'exact',head:true}),sb.from('certificates').select('*',{count:'exact',head:true}),sb.from('payment_requests').select('*',{count:'exact',head:true}).eq('status','pending')]);
+  q('#dev-stats').innerHTML=`<div class="stat"><div class="stat-n" style="color:var(--blue)">${a.count||0}</div><div class="stat-l">مستخدمون</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${b.count||0}</div><div class="stat-l">كورسات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${c.count||0}</div><div class="stat-l">تسجيلات</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${e.count||0}</div><div class="stat-l">دفع معلق</div></div>`;
+  const {data:users}=await sb.from('profiles').select('*').order('created_at',{ascending:false});
+  q('#dev-users').innerHTML=(users||[]).map(u=>`<div class="card-sm flex" style="gap:10px;margin-bottom:8px"><div class="av">${(u.name||'?')[0]}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${u.name}</div><div style="font-size:11px;color:var(--text2)">${u.email||''}</div></div><span class="badge ${u.role==='dev'?'b-red':u.role==='admin'?'b-amber':'b-blue'}">${u.role}</span></div>`).join('');
+  const {data:courses}=await sb.from('courses').select('*').order('created_at',{ascending:false});
+  q('#dev-courses').innerHTML=(courses||[]).map(c=>`<div class="card-sm flex" style="gap:10px;margin-bottom:8px"><div style="font-size:24px">${c.emoji||'📚'}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${c.title}</div><div style="font-size:11px;color:var(--text2)">${c.price_egp===0?'مجاني':c.price_egp+' ج.م'}</div></div><button class="btn btn-red btn-sm" onclick="delCourse('${c.id}')">حذف</button></div>`).join('');
+}
+
+async function changeRole(){
+  const email=q('#cr-email').value.trim(),role=q('#cr-role').value;
+  if(!email)return toast('أدخل البريد الإلكتروني');
+  const {data}=await sb.from('profiles').update({role}).eq('email',email).select();
+  if(data&&data.length){toast('تم تغيير الدور إلى '+role);closeModal('m-change-role');loadDevStats();}
+  else toast('لم يُعثر على المستخدم');
+}
+
+function showScr(n){['auth','student','admin','dev'].forEach(s=>q('#scr-'+s).classList.add('hide'));q('#scr-'+n).classList.remove('hide');}
+function sw(h,s){q('#'+h).classList.add('hide');q('#'+s).classList.remove('hide');}
+function q(sel){return document.querySelector(sel);}
+function showErr(sel,msg){const el=q(sel);el.textContent=msg;el.style.display='block';}
+function openModal(id){q('#'+id).classList.add('on');}
+function closeModal(id){q('#'+id).classList.remove('on');}
+let tt;function toast(msg){const t=q('#toast');t.textContent=msg;t.style.display='block';clearTimeout(tt);tt=setTimeout(()=>t.style.display='none',3000);}
+</script>
+</body>
+</html>
