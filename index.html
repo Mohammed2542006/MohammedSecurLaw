@@ -243,7 +243,6 @@ select.inp{cursor:pointer}
   </div>
 </div>
 
-<!-- MODALS -->
 <div class="modal-bg" id="m-course" onclick="closeModal('m-course')"><div class="modal" onclick="event.stopPropagation()"><div class="mhandle"></div><div id="m-course-content"></div></div></div>
 
 <div class="modal-bg" id="m-pay" onclick="closeModal('m-pay')">
@@ -321,27 +320,61 @@ select.inp{cursor:pointer}
 <script>
 const SURL='https://xevhwajzmlgepckwiyfz.supabase.co';
 const SKEY='sb_publishable_Zy1Cv1C2Al5y8Be5a2C5FA_9hcyjo0m';
-const sb=supabase.createClient(SURL,SKEY);
+// التعديل الأول: تفعيل الثبات (Persist Session) لعدم تسجيل الخروج تلقائياً
+const sb = supabase.createClient(SURL, SKEY, {
+  auth: { persistSession: true, autoRefreshToken: true }
+});
 let ME=null,PROFILE=null,PAY_COURSE=null,CUR_QUIZ=null;
 let QS={i:0,sc:0,ans:false,done:false,questions:[]};
 
 window.addEventListener('DOMContentLoaded',async()=>{
   const {data:{session}}=await sb.auth.getSession();
-  if(session){ME=session.user;await loadProfile();}
-  else showScr('auth');
+  if(session){
+    ME=session.user;
+    await loadProfile();
+    listenToRoleChanges(); // التعديل الثاني: تفعيل المراقب اللحظي
+  } else {
+    showScr('auth');
+  }
 });
+
+// الدالة الذكية لعمل ريفريش تلقائي فور تغيير الرتبة في قاعدة البيانات
+function listenToRoleChanges() {
+  sb.channel('role-channel').on('postgres_changes', { 
+    event: 'UPDATE', schema: 'public', table: 'profiles', filter: `id=eq.${ME.id}` 
+  }, (payload) => {
+    if (payload.new.role !== PROFILE.role) {
+      toast('تم تحديث الصلاحيات.. جاري التحديث');
+      setTimeout(() => location.reload(), 1500);
+    }
+  }).subscribe();
+}
+
 sb.auth.onAuthStateChange(async(ev,session)=>{
-  if(ev==='SIGNED_IN'&&session){ME=session.user;await loadProfile();}
-  if(ev==='SIGNED_OUT'){ME=null;PROFILE=null;showScr('auth');}
+  if((ev==='SIGNED_IN' || ev==='TOKEN_REFRESHED') && session){
+    ME=session.user;
+    await loadProfile();
+  }
+  if(ev==='SIGNED_OUT'){
+    ME=null;PROFILE=null;
+    // التعديل الثالث: تنظيف الذاكرة لعدم حدوث "تقل" أو تعليق
+    localStorage.clear();
+    sessionStorage.clear();
+    showScr('auth');
+  }
 });
 
 async function loadProfile(){
-  const {data}=await sb.from('profiles').select('*').eq('id',ME.id).single();
-  PROFILE=data;
-  if(!PROFILE){showScr('auth');return;}
-  if(PROFILE.role==='admin'||PROFILE.role==='teacher'){showScr('admin');loadAdminData();}
-  else if(PROFILE.role==='dev'){showScr('dev');loadDevStats();}
-  else{showScr('student');loadStudentData();}
+  try {
+    const {data, error}=await sb.from('profiles').select('*').eq('id',ME.id).single();
+    if(error || !data) { await sb.auth.signOut(); return; }
+    PROFILE=data;
+    if(PROFILE.role==='admin'||PROFILE.role==='teacher'){showScr('admin');loadAdminData();}
+    else if(PROFILE.role==='dev'){showScr('dev');loadDevStats();}
+    else{showScr('student');loadStudentData();}
+  } catch (err) {
+    await sb.auth.signOut();
+  }
 }
 
 async function doLogin(){
