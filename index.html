@@ -320,60 +320,63 @@ select.inp{cursor:pointer}
 <script>
 const SURL='https://xevhwajzmlgepckwiyfz.supabase.co';
 const SKEY='sb_publishable_Zy1Cv1C2Al5y8Be5a2C5FA_9hcyjo0m';
-// التعديل الأول: تفعيل الثبات (Persist Session) لعدم تسجيل الخروج تلقائياً
-const sb = supabase.createClient(SURL, SKEY, {
-  auth: { persistSession: true, autoRefreshToken: true }
-});
+const sb=supabase.createClient(SURL,SKEY);
+
 let ME=null,PROFILE=null,PAY_COURSE=null,CUR_QUIZ=null;
 let QS={i:0,sc:0,ans:false,done:false,questions:[]};
 
-window.addEventListener('DOMContentLoaded',async()=>{
-  const {data:{session}}=await sb.auth.getSession();
-  if(session){
-    ME=session.user;
+window.addEventListener('DOMContentLoaded', async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    ME = session.user;
     await loadProfile();
-    listenToRoleChanges(); // التعديل الثاني: تفعيل المراقب اللحظي
+    listenToRoleChanges();
   } else {
     showScr('auth');
   }
 });
 
-// الدالة الذكية لعمل ريفريش تلقائي فور تغيير الرتبة في قاعدة البيانات
 function listenToRoleChanges() {
+  if (!ME) return;
   sb.channel('role-channel').on('postgres_changes', { 
     event: 'UPDATE', schema: 'public', table: 'profiles', filter: `id=eq.${ME.id}` 
   }, (payload) => {
-    if (payload.new.role !== PROFILE.role) {
-      toast('تم تحديث الصلاحيات.. جاري التحديث');
+    if (PROFILE && payload.new.role !== PROFILE.role) {
+      toast('تم تحديث صلاحياتك.. جاري التحديث');
       setTimeout(() => location.reload(), 1500);
     }
   }).subscribe();
 }
 
-sb.auth.onAuthStateChange(async(ev,session)=>{
-  if((ev==='SIGNED_IN' || ev==='TOKEN_REFRESHED') && session){
-    ME=session.user;
+sb.auth.onAuthStateChange(async (ev, session) => {
+  if ((ev === 'SIGNED_IN' || ev === 'TOKEN_REFRESHED') && session) {
+    ME = session.user;
     await loadProfile();
-  }
-  if(ev==='SIGNED_OUT'){
-    ME=null;PROFILE=null;
-    // التعديل الثالث: تنظيف الذاكرة لعدم حدوث "تقل" أو تعليق
-    localStorage.clear();
-    sessionStorage.clear();
+  } else if (ev === 'SIGNED_OUT') {
+    ME = null;
+    PROFILE = null;
+    // لا يوجد مسح للـ localStorage هنا للحفاظ على الاستقرار
     showScr('auth');
   }
 });
 
-async function loadProfile(){
+async function loadProfile() {
   try {
-    const {data, error}=await sb.from('profiles').select('*').eq('id',ME.id).single();
-    if(error || !data) { await sb.auth.signOut(); return; }
-    PROFILE=data;
-    if(PROFILE.role==='admin'||PROFILE.role==='teacher'){showScr('admin');loadAdminData();}
-    else if(PROFILE.role==='dev'){showScr('dev');loadDevStats();}
-    else{showScr('student');loadStudentData();}
+    const { data, error } = await sb.from('profiles').select('*').eq('id', ME.id).single();
+    if (error || !data) { 
+      // حل مشكلة التعليق عند بطء قاعدة البيانات
+      PROFILE = { role: 'student', name: 'جاري التحميل...' };
+      showScr('student');
+      return; 
+    }
+    PROFILE = data;
+    if (PROFILE.role === 'admin' || PROFILE.role === 'teacher') { showScr('admin'); loadAdminData(); }
+    else if (PROFILE.role === 'dev') { showScr('dev'); loadDevStats(); }
+    else { showScr('student'); loadStudentData(); }
   } catch (err) {
-    await sb.auth.signOut();
+    console.error(err);
+    PROFILE = { role: 'student', name: 'خطأ في الاتصال' };
+    showScr('student');
   }
 }
 
