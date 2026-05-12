@@ -243,48 +243,29 @@ select.inp{cursor:pointer}
   </div>
 </div>
 
-<div class="modal-bg" id="m-course" onclick="closeModal('m-course')"><div class="modal" onclick="event.stopPropagation()"><div class="mhandle"></div><div id="m-course-content"></div></div></div>
-
-<div class="modal-bg" id="m-pay" onclick="closeModal('m-pay')">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="mhandle"></div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:6px">الدفع والاشتراك</div>
-    <div id="m-pay-info" style="font-size:13px;color:var(--text2);margin-bottom:16px"></div>
-    <div class="card" style="background:var(--blue2)"><div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:4px">دفع من مصر</div><div style="font-size:12px;color:var(--text2)">فودافون كاش / انستاباي / بطاقة بنكية</div></div>
-    <div class="card" style="background:var(--green2)"><div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:4px">دفع من خارج مصر</div><div style="font-size:12px;color:var(--text2)">Stripe - بطاقة Visa / Mastercard</div></div>
-    <label class="inp-lbl">طريقة الدفع</label>
-    <select class="inp" id="pay-method"><option value="vodafone">فودافون كاش</option><option value="instapay">انستاباي</option><option value="card_eg">بطاقة مصرية</option><option value="stripe">Stripe (خارج مصر)</option></select>
-    <label class="inp-lbl">رقم المحفظة أو المرجع</label>
-    <input class="inp" id="pay-ref" type="text" placeholder="01xxxxxxxxx" dir="ltr">
-    <button class="btn btn-blue btn-full" onclick="submitPayment()">إرسال طلب الدفع</button>
-    <div style="font-size:12px;color:var(--text2);margin-top:10px;text-align:center">سيتم التواصل معك خلال 24 ساعة</div>
-  </div>
-</div>
-
 <div class="modal-bg" id="m-add-course" onclick="closeModal('m-add-course')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="mhandle"></div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة كورس</div>
-    <label class="inp-lbl">اسم الكورس</label><input class="inp" id="nc-title" type="text" placeholder="Grammar Level 3">
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة كورس / مجموعة</div>
+    <label class="inp-lbl">اسم المجموعة (مثال: فصل أ.سارة مستوى 1)</label><input class="inp" id="nc-title" type="text" placeholder="اسم المجموعة">
     <label class="inp-lbl">الوصف</label><input class="inp" id="nc-desc" type="text" placeholder="وصف مختصر">
     <label class="inp-lbl">المستوى</label>
     <select class="inp" id="nc-level"><option value="beginner">مبتدئ</option><option value="intermediate">متوسط</option><option value="advanced">متقدم</option></select>
     <div class="g2"><div><label class="inp-lbl">السعر جنيه</label><input class="inp" id="nc-egp" type="number" placeholder="0"></div><div><label class="inp-lbl">السعر دولار</label><input class="inp" id="nc-usd" type="number" placeholder="0"></div></div>
     <label class="inp-lbl">اسم المعلم</label><input class="inp" id="nc-teacher" type="text" placeholder="أ. سارة محمد">
     <label class="inp-lbl">أيقونة</label><input class="inp" id="nc-emoji" type="text" placeholder="📚" value="📚">
-    <button class="btn btn-blue btn-full" onclick="addCourse()">إضافة الكورس</button>
+    <button class="btn btn-blue btn-full" onclick="addCourse()">إضافة المجموعة</button>
   </div>
 </div>
 
 <div class="modal-bg" id="m-add-lecture" onclick="closeModal('m-add-lecture')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="mhandle"></div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة محاضرة</div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة محاضرة مسجلة</div>
     <input type="hidden" id="nl-course-id">
-    <label class="inp-lbl">عنوان المحاضرة</label><input class="inp" id="nl-title" type="text" placeholder="Present Simple Tense">
-    <label class="inp-lbl">YouTube Video ID</label><input class="inp" id="nl-yt" type="text" placeholder="dQw4w9WgXcQ" dir="ltr">
-    <div style="font-size:11px;color:var(--text2);margin-top:-8px;margin-bottom:12px">من رابط يوتيوب: youtube.com/watch?v=<b>الكود هنا</b></div>
-    <label class="inp-lbl">المدة (دقيقة)</label><input class="inp" id="nl-dur" type="number" placeholder="30">
+    <label class="inp-lbl">عنوان المحاضرة</label><input class="inp" id="nl-title" type="text" placeholder="مثال: تسجيل حصة يوم الإثنين">
+    <label class="inp-lbl">الرابط (YouTube أو Google Drive)</label><input class="inp" id="nl-yt" type="text" placeholder="رابط الفيديو" dir="ltr">
+    <label class="inp-lbl">المدة (دقيقة)</label><input class="inp" id="nl-dur" type="number" placeholder="60">
     <label class="inp-lbl">الترتيب</label><input class="inp" id="nl-order" type="number" placeholder="1">
     <div class="flex" style="gap:10px;margin-bottom:14px"><input type="checkbox" id="nl-free" style="width:18px;height:18px"><label for="nl-free" style="font-size:14px">محاضرة مجانية</label></div>
     <button class="btn btn-blue btn-full" onclick="addLecture()">إضافة المحاضرة</button>
@@ -312,6 +293,19 @@ select.inp{cursor:pointer}
     <label class="inp-lbl">الدور الجديد</label>
     <select class="inp" id="cr-role"><option value="student">student - طالب</option><option value="teacher">teacher - معلم</option><option value="admin">admin - مدير</option><option value="dev">dev - مطور</option></select>
     <button class="btn btn-full" style="background:#7c3aed;color:#fff" onclick="changeRole()">تغيير الدور</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="m-add-pdf" onclick="closeModal('m-add-pdf')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhandle"></div>
+    <div style="font-size:18px;font-weight:700; margin-bottom:16px">إضافة كتاب / ملزمة (PDF)</div>
+    <input type="hidden" id="pdf-course-id">
+    <label class="inp-lbl">اسم الكتاب أو الملزمة</label>
+    <input class="inp" id="pdf-title" placeholder="مثال: ملزمة الحصة الأولى">
+    <label class="inp-lbl">رابط الملف (جوجل درايف أو ميديا فاير)</label>
+    <input class="inp" id="pdf-url" placeholder="https://..." dir="ltr">
+    <button class="btn btn-blue btn-full" onclick="addMaterial()">حفظ الملف</button>
   </div>
 </div>
 
@@ -606,9 +600,17 @@ async function approvePay(pid, sid, cid) {
 
 async function rejectPay(pid) { await sb.from('payment_requests').update({ status: 'rejected' }).eq('id', pid); toast('تم رفض الطلب'); loadAdminData(); }
 
-async function loadAdminCourses() {
-  const { data: courses } = await sb.from('courses').select('*').order('created_at', { ascending: false });
-  q('#a-courses-list').innerHTML = (courses || []).map(c => `<div class="card"><div class="between" style="margin-bottom:8px"><div class="flex" style="gap:10px"><div style="font-size:28px">${c.emoji || '📚'}</div><div><div style="font-size:14px;font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--text2)">${c.teacher_name || ''} · ${c.price_egp === 0 ? 'مجاني' : c.price_egp + ' ج.م'}</div></div></div></div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="openAddLecture('${c.id}')">+ محاضرة</button><button class="btn btn-red btn-sm" onclick="delCourse('${c.id}')">حذف</button></div></div>`).join('') || '<div style="color:var(--text2);font-size:14px">لا توجد كورسات</div>';
+async function loadAdminCourses(){
+  const {data:courses}=await sb.from('courses').select('*').order('created_at',{ascending:false});
+  q('#a-courses-list').innerHTML=(courses||[]).map(c=>`<div class="card"><div class="between" style="margin-bottom:8px"><div class="flex" style="gap:10px"><div style="font-size:28px">${c.emoji||'📚'}</div><div><div style="font-size:14px;font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--text2)">${c.teacher_name||''} · ${c.price_egp===0?'مجاني':c.price_egp+' ج.م'}</div></div></div></div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="openAddLecture('${c.id}')">+ فيديو</button><button class="btn btn-green btn-sm" style="flex:1" onclick="q('#pdf-course-id').value='${c.id}'; openModal('m-add-pdf')">+ كتاب</button><button class="btn btn-red btn-sm" onclick="delCourse('${c.id}')">حذف</button></div></div>`).join('')||'<div style="color:var(--text2);font-size:14px">لا توجد كورسات</div>';
+}
+
+async function addMaterial() {
+  const cid=q('#pdf-course-id').value, title=q('#pdf-title').value.trim(), url=q('#pdf-url').value.trim();
+  if(!title || !url) return toast("أكمل البيانات");
+  const { error } = await sb.from('materials').insert({ course_id:cid, title, file_url:url });
+  if(error) return toast('خطأ: ' + error.message);
+  toast("تم إضافة الملف بنجاح"); closeModal('m-add-pdf'); loadAdminCourses();
 }
 
 async function loadAdminStudents() {
