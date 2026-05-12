@@ -126,13 +126,13 @@ select.inp{cursor:pointer}
     <div class="g2" style="margin-bottom:16px" id="s-stats"></div>
     <div id="s-live-card" class="card hide" style="border:1.5px solid var(--red2);cursor:pointer;margin-bottom:16px"></div>
     <div class="between" style="margin-bottom:12px">
-      <div style="font-size:16px;font-weight:700">كورساتي</div>
+      <div style="font-size:16px;font-weight:700">مجموعاتي وكورساتي</div>
       <span style="font-size:13px;color:var(--blue);cursor:pointer;font-weight:600" onclick="sNav('courses')">عرض الكل</span>
     </div>
     <div id="s-my-courses"></div>
   </div>
   <div id="sp-courses" class="page">
-    <div class="between" style="margin-bottom:14px"><div style="font-size:18px;font-weight:700">الكورسات</div><span class="badge b-blue" id="s-course-count">...</span></div>
+    <div class="between" style="margin-bottom:14px"><div style="font-size:18px;font-weight:700">الكل</div><span class="badge b-blue" id="s-course-count">...</span></div>
     <div id="s-all-courses"></div>
   </div>
   <div id="sp-live" class="page">
@@ -161,7 +161,7 @@ select.inp{cursor:pointer}
   </div>
   <nav class="bnav" id="s-bnav">
     <button class="bni on" id="sn-home" onclick="sNav('home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>الرئيسية</span></button>
-    <button class="bni" id="sn-courses" onclick="sNav('courses')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>الكورسات</span></button>
+    <button class="bni" id="sn-courses" onclick="sNav('courses')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>كورسات</span></button>
     <button class="bni" id="sn-live" onclick="sNav('live')"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span>محاضرات</span></button>
     <button class="bni" id="sn-tests" onclick="sNav('tests')"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>اختبارات</span></button>
     <button class="bni" id="sn-profile" onclick="sNav('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>حسابي</span></button>
@@ -184,7 +184,7 @@ select.inp{cursor:pointer}
     <div id="a-students-preview"></div>
   </div>
   <div id="ap-courses" class="page">
-    <div class="between" style="margin-bottom:14px"><div style="font-size:18px;font-weight:700">الكورسات</div><button class="btn btn-blue btn-sm" onclick="openModal('m-add-course')">+ إضافة</button></div>
+    <div class="between" style="margin-bottom:14px"><div style="font-size:18px;font-weight:700">المجموعات / الكورسات</div><button class="btn btn-blue btn-sm" onclick="openModal('m-add-course')">+ إضافة</button></div>
     <div id="a-courses-list"></div>
   </div>
   <div id="ap-students" class="page">
@@ -208,7 +208,7 @@ select.inp{cursor:pointer}
   </div>
   <nav class="bnav">
     <button class="bni on" id="an-dash" onclick="aNav('dash')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>الرئيسية</span></button>
-    <button class="bni" id="an-courses" onclick="aNav('courses')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>كورسات</span></button>
+    <button class="bni" id="an-courses" onclick="aNav('courses')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>مجموعات</span></button>
     <button class="bni" id="an-students" onclick="aNav('students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>طلاب</span></button>
     <button class="bni" id="an-live" onclick="aNav('live')"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span>بث مباشر</span></button>
     <button class="bni" id="an-certs" onclick="aNav('certs')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><span>شهادات</span></button>
@@ -264,27 +264,27 @@ select.inp{cursor:pointer}
 <div class="modal-bg" id="m-add-course" onclick="closeModal('m-add-course')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="mhandle"></div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة كورس</div>
-    <label class="inp-lbl">اسم الكورس</label><input class="inp" id="nc-title" type="text" placeholder="Grammar Level 3">
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة كورس / مجموعة</div>
+    <label class="inp-lbl">اسم الكورس (أو اسم فصل الطالب)</label><input class="inp" id="nc-title" type="text" placeholder="مثال: مجموعة محمد مستوى 1">
     <label class="inp-lbl">الوصف</label><input class="inp" id="nc-desc" type="text" placeholder="وصف مختصر">
     <label class="inp-lbl">المستوى</label>
     <select class="inp" id="nc-level"><option value="beginner">مبتدئ</option><option value="intermediate">متوسط</option><option value="advanced">متقدم</option></select>
     <div class="g2"><div><label class="inp-lbl">السعر جنيه</label><input class="inp" id="nc-egp" type="number" placeholder="0"></div><div><label class="inp-lbl">السعر دولار</label><input class="inp" id="nc-usd" type="number" placeholder="0"></div></div>
     <label class="inp-lbl">اسم المعلم</label><input class="inp" id="nc-teacher" type="text" placeholder="أ. سارة محمد">
     <label class="inp-lbl">أيقونة</label><input class="inp" id="nc-emoji" type="text" placeholder="📚" value="📚">
-    <button class="btn btn-blue btn-full" onclick="addCourse()">إضافة الكورس</button>
+    <button class="btn btn-blue btn-full" onclick="addCourse()">إضافة المجموعة</button>
   </div>
 </div>
 
 <div class="modal-bg" id="m-add-lecture" onclick="closeModal('m-add-lecture')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="mhandle"></div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة محاضرة</div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">إضافة محاضرة مسجلة</div>
     <input type="hidden" id="nl-course-id">
-    <label class="inp-lbl">عنوان المحاضرة</label><input class="inp" id="nl-title" type="text" placeholder="Present Simple Tense">
+    <label class="inp-lbl">عنوان المحاضرة</label><input class="inp" id="nl-title" type="text" placeholder="مثال: تسجيل حصة يوم الإثنين">
     <label class="inp-lbl">YouTube Video ID</label><input class="inp" id="nl-yt" type="text" placeholder="dQw4w9WgXcQ" dir="ltr">
     <div style="font-size:11px;color:var(--text2);margin-top:-8px;margin-bottom:12px">من رابط يوتيوب: youtube.com/watch?v=<b>الكود هنا</b></div>
-    <label class="inp-lbl">المدة (دقيقة)</label><input class="inp" id="nl-dur" type="number" placeholder="30">
+    <label class="inp-lbl">المدة (دقيقة)</label><input class="inp" id="nl-dur" type="number" placeholder="60">
     <label class="inp-lbl">الترتيب</label><input class="inp" id="nl-order" type="number" placeholder="1">
     <div class="flex" style="gap:10px;margin-bottom:14px"><input type="checkbox" id="nl-free" style="width:18px;height:18px"><label for="nl-free" style="font-size:14px">محاضرة مجانية</label></div>
     <button class="btn btn-blue btn-full" onclick="addLecture()">إضافة المحاضرة</button>
@@ -315,13 +315,22 @@ select.inp{cursor:pointer}
   </div>
 </div>
 
+<div class="modal-bg" id="m-video" onclick="closeModal('m-video'); document.getElementById('v-frame').src=''">
+  <div class="modal" style="padding:16px; background:#000; border-radius:16px;" onclick="event.stopPropagation()">
+    <div class="between" style="margin-bottom:12px;">
+      <div style="color:#fff; font-weight:700; font-size:16px;" id="v-title">المحاضرة</div>
+      <button class="btn btn-sm btn-red" onclick="closeModal('m-video'); document.getElementById('v-frame').src=''">إغلاق</button>
+    </div>
+    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px;">
+      <iframe id="v-frame" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" allowfullscreen allow="autoplay"></iframe>
+    </div>
+  </div>
+</div>
 <div id="toast"></div>
 
 <script>
 const SURL = 'https://xevhwajzmlgepckwiyfz.supabase.co';
 const SKEY = 'sb_publishable_Zy1Cv1C2Al5y8Be5a2C5FA_9hcyjo0m';
-
-// العودة للنظام الافتراضي الحديدي الذي لا يطرد الجلسات
 const sb = supabase.createClient(SURL, SKEY);
 
 let ME = null, PROFILE = null, PAY_COURSE = null, CUR_QUIZ = null;
@@ -330,16 +339,11 @@ let QS = { i: 0, sc: 0, ans: false, done: false, questions: [] };
 window.addEventListener('DOMContentLoaded', async () => {
   try {
     const { data: { session }, error } = await sb.auth.getSession();
-    if (error || !session) {
-      showScr('auth');
-      return;
-    }
+    if (error || !session) { showScr('auth'); return; }
     ME = session.user;
     await loadProfile();
     listenToRoleChanges();
-  } catch (err) {
-    showScr('auth');
-  }
+  } catch (err) { showScr('auth'); }
 });
 
 function listenToRoleChanges() {
@@ -355,54 +359,32 @@ function listenToRoleChanges() {
 }
 
 sb.auth.onAuthStateChange((ev, session) => {
-  if (ev === 'SIGNED_OUT') {
-    ME = null; PROFILE = null;
-    showScr('auth');
-  }
+  if (ev === 'SIGNED_OUT') { ME = null; PROFILE = null; showScr('auth'); }
 });
 
 async function loadProfile() {
   try {
     const { data, error } = await sb.from('profiles').select('*').eq('id', ME.id).single();
-    if (error || !data) {
-      PROFILE = { role: 'student', name: 'جاري التحميل...' };
-      showScr('student');
-      return;
-    }
+    if (error || !data) { PROFILE = { role: 'student', name: 'جاري التحميل...' }; showScr('student'); return; }
     PROFILE = data;
     if (PROFILE.role === 'admin' || PROFILE.role === 'teacher') { showScr('admin'); loadAdminData(); }
     else if (PROFILE.role === 'dev') { showScr('dev'); loadDevStats(); }
     else { showScr('student'); loadStudentData(); }
-  } catch (err) {
-    showScr('student');
-  }
+  } catch (err) { showScr('student'); }
 }
 
-// تعديل الدخول الإجباري لمنع تهنيج الشاشة
 async function doLogin() {
   const email = q('#l-email').value.trim(), pass = q('#l-pass').value;
   if (!email || !pass) return toast('أدخل البريد وكلمة المرور');
-  
-  q('#l-err').style.display = 'none';
-  toast('جاري الدخول...');
-  
+  q('#l-err').style.display = 'none'; toast('جاري الدخول...');
   const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  
   if (error) {
     let eMsg = error.message;
     if (eMsg.includes('Email not confirmed')) eMsg = 'يجب تأكيد الإيميل من إعدادات Supabase!';
     if (eMsg.includes('Invalid login')) eMsg = 'البريد أو الباسورد غير صحيح';
-    showErr('#l-err', eMsg);
-    return;
+    showErr('#l-err', eMsg); return;
   }
-  
-  // نقل جبري للوحة بعد التأكد من صحة الدخول
-  if (data && data.session) {
-    ME = data.session.user;
-    await loadProfile();
-    listenToRoleChanges();
-    toast('تم الدخول بنجاح!');
-  }
+  if (data && data.session) { ME = data.session.user; await loadProfile(); listenToRoleChanges(); toast('تم الدخول بنجاح!'); }
 }
 
 async function doRegister() {
@@ -411,23 +393,20 @@ async function doRegister() {
   if (pass.length < 6) return toast('كلمة المرور 6 أحرف على الأقل');
   const { error } = await sb.auth.signUp({ email, password: pass, options: { data: { name, country } } });
   if (error) { showErr('#r-err', error.message); return; }
-  toast('تم إنشاء الحساب! يمكنك الدخول الآن');
-  sw('v-register', 'v-login');
+  toast('تم إنشاء الحساب! يمكنك الدخول الآن'); sw('v-register', 'v-login');
 }
 
 async function doLogout() { await sb.auth.signOut(); }
 
 async function loadStudentData() {
   q('#s-name').textContent = PROFILE.name.split(' ')[0];
-  q('#s-pname').textContent = PROFILE.name;
-  q('#s-pemail').textContent = ME.email;
-  q('#s-av').textContent = PROFILE.name[0];
+  q('#s-pname').textContent = PROFILE.name; q('#s-pemail').textContent = ME.email; q('#s-av').textContent = PROFILE.name[0];
   const { data: enroll } = await sb.from('enrollments').select('*').eq('student_id', ME.id);
   const { data: certs } = await sb.from('certificates').select('*').eq('student_id', ME.id);
   const { data: atts } = await sb.from('attempts').select('*').eq('student_id', ME.id);
   const en = enroll || [], ct = certs || [], at = atts || [];
   const avg = en.length ? Math.round(en.reduce((a, b) => a + b.progress, 0) / en.length) : 0;
-  q('#s-stats').innerHTML = `<div class="stat"><div class="stat-n" style="color:var(--blue)">${en.length}</div><div class="stat-l">كورسات</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${ct.length}</div><div class="stat-l">شهادات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${avg}%</div><div class="stat-l">تقدم</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${at.length}</div><div class="stat-l">اختبارات</div></div>`;
+  q('#s-stats').innerHTML = `<div class="stat"><div class="stat-n" style="color:var(--blue)">${en.length}</div><div class="stat-l">مجموعاتي</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${ct.length}</div><div class="stat-l">شهادات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${avg}%</div><div class="stat-l">تقدم</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${at.length}</div><div class="stat-l">اختبارات</div></div>`;
   if (en.length) {
     const { data: c } = await sb.from('courses').select('title').eq('id', en[0].course_id).single();
     if (c) q('#s-hero-title').textContent = c.title;
@@ -447,13 +426,13 @@ async function loadStudentData() {
       const e = en.find(x => x.course_id === c.id);
       return `<div class="card-sm flex" style="gap:12px;cursor:pointer" onclick="openCourse('${c.id}')"><div style="width:48px;height:48px;background:var(--blue2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">${c.emoji || '📚'}</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:3px">${c.title}</div><div style="font-size:12px;color:var(--text2);margin-bottom:6px">${e.payment_status === 'paid' || c.price_egp === 0 ? 'مفعّل' : 'في الانتظار'}</div><div class="pbar"><div class="pfill" style="width:${e.progress}%"></div></div></div><div style="font-size:13px;font-weight:700;color:var(--blue)">${e.progress}%</div></div>`;
     }).join('');
-  } else q('#s-my-courses').innerHTML = '<div style="color:var(--text2);font-size:14px;padding:10px 0">لم تسجل في أي كورس بعد</div>';
+  } else q('#s-my-courses').innerHTML = '<div style="color:var(--text2);font-size:14px;padding:10px 0">لم يتم إضافتك لمجموعة بعد</div>';
   await loadAllCoursesStudent(); await loadLectures(); await loadQuizzesStudent(); await loadStudentCerts(); await loadStudentPayments();
 }
 
 async function loadAllCoursesStudent() {
   const { data: courses } = await sb.from('courses').select('*').eq('is_published', true);
-  q('#s-course-count').textContent = (courses || []).length + ' كورس';
+  q('#s-course-count').textContent = (courses || []).length;
   const lv = { beginner: 'b-green', intermediate: 'b-blue', advanced: 'b-amber' };
   const lt = { beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' };
   q('#s-all-courses').innerHTML = (courses || []).map(c => `<div class="card" style="cursor:pointer" onclick="openCourse('${c.id}')"><div class="between" style="margin-bottom:8px"><span class="badge ${lv[c.level] || 'b-gray'}">${lt[c.level] || c.level}</span><span style="font-size:14px;font-weight:700;color:var(--blue)">${c.price_egp === 0 ? 'مجاني' : c.price_egp + ' ج.م'}</span></div><div class="flex" style="gap:12px"><div style="font-size:32px">${c.emoji || '📚'}</div><div><div style="font-size:15px;font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">${c.teacher_name || ''}</div></div></div></div>`).join('');
@@ -465,11 +444,17 @@ async function openCourse(id) {
   const { data: enroll } = await sb.from('enrollments').select('*').eq('student_id', ME.id).eq('course_id', id).single();
   const lv = { beginner: 'b-green', intermediate: 'b-blue', advanced: 'b-amber' };
   const lt = { beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' };
-  q('#m-course-content').innerHTML = `<div class="center" style="font-size:48px;margin-bottom:12px">${c.emoji || '📚'}</div><div class="between" style="margin-bottom:10px"><div style="font-size:18px;font-weight:700;flex:1">${c.title}</div><span class="badge ${lv[c.level] || 'b-gray'}">${lt[c.level] || c.level}</span></div><div style="font-size:13px;color:var(--text2);margin-bottom:4px">${c.description || ''}</div><div class="flex" style="gap:16px;margin-bottom:16px"><span style="font-size:13px">${c.teacher_name || ''}</span><span style="font-size:13px;font-weight:700;color:var(--blue)">${c.price_egp === 0 ? 'مجاني' : c.price_egp + ' ج.م / ' + (c.price_usd || 0) + ' USD'}</span></div>${enroll ? `<div class="pbar" style="margin-bottom:16px;height:8px"><div class="pfill" style="width:${enroll.progress}%"></div></div>` : ''}<div style="font-size:15px;font-weight:700;margin-bottom:10px">المحاضرات (${(lecs || []).length})</div>${(lecs || []).map((l, i) => `<div class="flex" style="padding:10px 0;border-bottom:1px solid var(--border);gap:10px;cursor:pointer" onclick="playLec('${l.youtube_id || ''}','${l.title}')"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue2);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${i + 1}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${l.title}</div><div style="font-size:11px;color:var(--text2)">${l.duration_minutes || 30} دقيقة</div></div><div style="width:32px;height:32px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>`).join('') || '<div style="color:var(--text2);font-size:13px;padding:10px 0">لم تُضف محاضرات بعد</div>'}<div style="margin-top:16px">${enroll ? `<button class="btn btn-green btn-full" onclick="updProg('${c.id}')">تحديث تقدمي +10%</button>` : c.price_egp === 0 ? `<button class="btn btn-blue btn-full" onclick="enrollFree('${c.id}')">سجل مجاناً</button>` : `<button class="btn btn-blue btn-full" onclick="openPayModal('${c.id}','${c.title}',${c.price_egp},${c.price_usd || 0})">ادفع واشترك</button>`}</div>`;
+  q('#m-course-content').innerHTML = `<div class="center" style="font-size:48px;margin-bottom:12px">${c.emoji || '📚'}</div><div class="between" style="margin-bottom:10px"><div style="font-size:18px;font-weight:700;flex:1">${c.title}</div><span class="badge ${lv[c.level] || 'b-gray'}">${lt[c.level] || c.level}</span></div><div style="font-size:13px;color:var(--text2);margin-bottom:4px">${c.description || ''}</div><div class="flex" style="gap:16px;margin-bottom:16px"><span style="font-size:13px">${c.teacher_name || ''}</span><span style="font-size:13px;font-weight:700;color:var(--blue)">${c.price_egp === 0 ? 'مجاني' : c.price_egp + ' ج.م'}</span></div>${enroll ? `<div class="pbar" style="margin-bottom:16px;height:8px"><div class="pfill" style="width:${enroll.progress}%"></div></div>` : ''}<div style="font-size:15px;font-weight:700;margin-bottom:10px">المحاضرات المسجلة (${(lecs || []).length})</div>${(lecs || []).map((l, i) => `<div class="flex" style="padding:10px 0;border-bottom:1px solid var(--border);gap:10px;cursor:pointer" onclick="playLec('${l.youtube_id || ''}','${l.title}')"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue2);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${i + 1}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${l.title}</div><div style="font-size:11px;color:var(--text2)">${l.duration_minutes || 60} دقيقة</div></div><div style="width:32px;height:32px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>`).join('') || '<div style="color:var(--text2);font-size:13px;padding:10px 0">لم تُضف محاضرات بعد</div>'}<div style="margin-top:16px">${enroll ? `<button class="btn btn-green btn-full" onclick="updProg('${c.id}')">تحديث تقدمي +10%</button>` : c.price_egp === 0 ? `<button class="btn btn-blue btn-full" onclick="enrollFree('${c.id}')">دخول المجموعة</button>` : `<button class="btn btn-blue btn-full" onclick="openPayModal('${c.id}','${c.title}',${c.price_egp},${c.price_usd || 0})">طلب انضمام</button>`}</div>`;
   openModal('m-course');
 }
 
-function playLec(ytId, title) { if (!ytId) return toast('لم يُضف رابط هذه المحاضرة بعد'); window.open('https://youtube.com/watch?v=' + ytId, '_blank'); }
+// التعديل السحري هنا: الفيديوهات تفتح داخل الموقع
+function playLec(ytId, title) { 
+  if (!ytId) return toast('لم يُضف رابط هذه المحاضرة بعد'); 
+  q('#v-title').textContent = title;
+  q('#v-frame').src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&rel=0';
+  openModal('m-video');
+}
 
 async function enrollFree(cid) {
   const { error } = await sb.from('enrollments').insert({ student_id: ME.id, course_id: cid, payment_status: 'free', progress: 0 });
@@ -486,32 +471,32 @@ async function updProg(cid) {
   toast('تم تحديث تقدمك إلى ' + np + '%'); closeModal('m-course'); loadStudentData();
 }
 
-function openPayModal(cid, ct, egp, usd) { PAY_COURSE = { id: cid, title: ct, priceEgp: egp, priceUsd: usd }; q('#m-pay-info').textContent = 'الكورس: ' + ct + ' | السعر: ' + egp + ' ج.م / ' + usd + ' USD'; closeModal('m-course'); openModal('m-pay'); }
+function openPayModal(cid, ct, egp, usd) { PAY_COURSE = { id: cid, title: ct, priceEgp: egp, priceUsd: usd }; q('#m-pay-info').textContent = 'المجموعة: ' + ct + ' | الرسوم: ' + egp + ' ج.م'; closeModal('m-course'); openModal('m-pay'); }
 
 async function submitPayment() {
   if (!PAY_COURSE) return;
-  const ref = q('#pay-ref').value.trim(); if (!ref) return toast('أدخل رقم المرجع');
+  const ref = q('#pay-ref').value.trim(); if (!ref) return toast('أدخل رقم المرجع أو الهاتف');
   const { error } = await sb.from('payment_requests').insert({ student_id: ME.id, student_name: PROFILE.name, course_id: PAY_COURSE.id, course_title: PAY_COURSE.title, amount: PAY_COURSE.priceEgp, currency: q('#pay-method').value === 'stripe' ? 'USD' : 'EGP', method: q('#pay-method').value, phone_or_ref: ref, status: 'pending' });
-  if (!error) { toast('تم إرسال طلب الدفع!'); closeModal('m-pay'); await sb.from('enrollments').upsert({ student_id: ME.id, course_id: PAY_COURSE.id, payment_status: 'pending', progress: 0 }, { onConflict: 'student_id,course_id' }); loadStudentData(); }
+  if (!error) { toast('تم إرسال الطلب للمعلمة!'); closeModal('m-pay'); await sb.from('enrollments').upsert({ student_id: ME.id, course_id: PAY_COURSE.id, payment_status: 'pending', progress: 0 }, { onConflict: 'student_id,course_id' }); loadStudentData(); }
   else toast('خطأ: ' + error.message);
 }
 
 async function loadLectures() {
   const { data: live } = await sb.from('live_sessions').select('*').eq('is_active', true);
-  q('#s-live-active').innerHTML = (live && live.length) ? live.map(s => `<div class="card" style="background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;margin-bottom:12px;cursor:pointer" onclick="window.open('https://meet.jit.si/${s.jitsi_room}','_blank')"><div class="flex" style="gap:8px;margin-bottom:10px"><div class="ldot"></div><div style="font-size:12px;font-weight:700">مباشر الآن</div></div><div style="font-size:16px;font-weight:700;margin-bottom:4px">${s.title}</div><div style="font-size:12px;opacity:.85">${s.teacher_name || ''}</div><button class="btn btn-full" style="background:rgba(255,255,255,.25);color:#fff;margin-top:12px">انضم الآن</button></div>`).join('') : '';
+  q('#s-live-active').innerHTML = (live && live.length) ? live.map(s => `<div class="card" style="background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;margin-bottom:12px;cursor:pointer" onclick="window.open('https://meet.jit.si/${s.jitsi_room}','_blank')"><div class="flex" style="gap:8px;margin-bottom:10px"><div class="ldot"></div><div style="font-size:12px;font-weight:700">بث مباشر الآن</div></div><div style="font-size:16px;font-weight:700;margin-bottom:4px">${s.title}</div><div style="font-size:12px;opacity:.85">${s.teacher_name || ''}</div><button class="btn btn-full" style="background:rgba(255,255,255,.25);color:#fff;margin-top:12px">انضم الآن</button></div>`).join('') : '';
   const { data: lecs } = await sb.from('lectures').select('*,courses(title)').order('order_num').limit(20);
-  q('#s-lectures').innerHTML = (lecs || []).map(l => `<div class="card-sm flex" style="gap:12px;cursor:pointer" onclick="${l.youtube_id ? `window.open('https://youtube.com/watch?v=${l.youtube_id}','_blank')` : 'toast(\"لم يُضف رابط هذه المحاضرة\")'}"><div style="width:50px;height:50px;background:var(--red2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">🎬</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:2px">${l.title}</div><div style="font-size:12px;color:var(--text2)">${l.courses?.title || ''} · ${l.duration_minutes || 30} دقيقة</div></div><div style="width:36px;height:36px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>`).join('') || '<div style="color:var(--text2);font-size:14px">لا توجد محاضرات متاحة حالياً</div>';
+  q('#s-lectures').innerHTML = (lecs || []).map(l => `<div class="card-sm flex" style="gap:12px;cursor:pointer" onclick="playLec('${l.youtube_id || ''}', '${l.title}')"><div style="width:50px;height:50px;background:var(--red2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">🎬</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:2px">${l.title}</div><div style="font-size:12px;color:var(--text2)">${l.courses?.title || ''} · ${l.duration_minutes || 60} دقيقة</div></div><div style="width:36px;height:36px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>`).join('') || '<div style="color:var(--text2);font-size:14px">لا توجد محاضرات متاحة حالياً</div>';
 }
 
 async function loadQuizzesStudent() {
   const { data: quizzes } = await sb.from('quizzes').select('*,courses(title)');
-  if (!quizzes || !quizzes.length) { q('#s-quiz-list').innerHTML = '<div style="color:var(--text2);font-size:14px">لا توجد اختبارات متاحة</div>'; return; }
+  if (!quizzes || !quizzes.length) { q('#s-quiz-list').innerHTML = '<div style="color:var(--text2);font-size:14px">لا توجد اختبارات لك حالياً</div>'; return; }
   q('#s-quiz-list').innerHTML = quizzes.map(qz => `<div class="card"><div class="between"><div><div style="font-size:15px;font-weight:700;margin-bottom:3px">${qz.title}</div><div style="font-size:12px;color:var(--text2)">${qz.courses?.title || ''} · درجة النجاح: ${qz.pass_score}%</div></div><button class="btn btn-blue btn-sm" onclick="startQuiz('${qz.id}','${qz.title}')">ابدأ</button></div></div>`).join('');
 }
 
 async function startQuiz(qid, qt) {
   const { data: questions } = await sb.from('questions').select('*').eq('quiz_id', qid).order('order_num');
-  if (!questions || !questions.length) return toast('لم تُضف أسئلة بعد');
+  if (!questions || !questions.length) return toast('المعلمة لم تُضف أسئلة بعد');
   CUR_QUIZ = { id: qid, title: qt }; QS = { i: 0, sc: 0, ans: false, done: false, questions };
   q('#s-quiz-list').classList.add('hide'); q('#s-quiz-active').classList.remove('hide'); renderQ();
 }
@@ -547,7 +532,7 @@ async function loadStudentCerts() {
 
 async function loadStudentPayments() {
   const { data: pays } = await sb.from('payment_requests').select('*').eq('student_id', ME.id).order('created_at', { ascending: false });
-  if (!pays || !pays.length) { q('#s-payments').innerHTML = '<div style="color:var(--text2);font-size:13px">لا توجد طلبات دفع</div>'; return; }
+  if (!pays || !pays.length) { q('#s-payments').innerHTML = '<div style="color:var(--text2);font-size:13px">لا توجد طلبات انضمام</div>'; return; }
   const sc = { pending: 'b-amber', approved: 'b-green', rejected: 'b-red' };
   const st = { pending: 'في الانتظار', approved: 'مقبول', rejected: 'مرفوض' };
   q('#s-payments').innerHTML = pays.map(p => `<div class="card-sm between" style="margin-bottom:8px"><div><div style="font-size:13px;font-weight:600">${p.course_title || ''}</div><div style="font-size:11px;color:var(--text2)">${p.amount} ${p.currency} · ${p.method}</div></div><span class="badge ${sc[p.status] || 'b-gray'}">${st[p.status] || p.status}</span></div>`).join('');
@@ -560,14 +545,14 @@ function sNav(pg) {
 }
 
 async function loadAdminData() {
-  q('#a-role-lbl').textContent = PROFILE.role === 'dev' ? 'مطور' : PROFILE.role === 'teacher' ? 'معلم' : 'مدير';
+  q('#a-role-lbl').textContent = PROFILE.role === 'dev' ? 'مطور' : PROFILE.role === 'teacher' ? 'المعلمة' : 'مدير';
   const { data: students } = await sb.from('profiles').select('*');
   const { data: courses } = await sb.from('courses').select('*');
   const { data: pays } = await sb.from('payment_requests').select('*').eq('status', 'pending');
   const { data: certs } = await sb.from('certificates').select('*');
-  q('#a-stats').innerHTML = `<div class="stat"><div class="stat-n" style="color:var(--blue)">${(students || []).length}</div><div class="stat-l">المستخدمون</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${(courses || []).length}</div><div class="stat-l">الكورسات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${(pays || []).length}</div><div class="stat-l">طلبات دفع</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${(certs || []).length}</div><div class="stat-l">شهادات</div></div>`;
+  q('#a-stats').innerHTML = `<div class="stat"><div class="stat-n" style="color:var(--blue)">${(students || []).length}</div><div class="stat-l">المستخدمون</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${(courses || []).length}</div><div class="stat-l">المجموعات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${(pays || []).length}</div><div class="stat-l">طلبات إضافة</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${(certs || []).length}</div><div class="stat-l">شهادات</div></div>`;
   const { data: allPays } = await sb.from('payment_requests').select('*').eq('status', 'pending').order('created_at', { ascending: false });
-  q('#a-pay-list').innerHTML = (allPays || []).length === 0 ? '<div style="color:var(--text2);font-size:13px;padding:10px 0">لا توجد طلبات معلقة</div>' : (allPays || []).map(p => `<div class="card-sm" style="margin-bottom:8px"><div style="margin-bottom:8px"><div style="font-size:13px;font-weight:700">${p.student_name || ''}</div><div style="font-size:11px;color:var(--text2)">${p.course_title || ''} · ${p.amount} ${p.currency}</div><div style="font-size:11px;color:var(--text2)">${p.method} · ${p.phone_or_ref || ''}</div></div><div class="flex" style="gap:8px"><button class="btn btn-green btn-sm" style="flex:1" onclick="approvePay('${p.id}','${p.student_id}','${p.course_id}')">قبول</button><button class="btn btn-red btn-sm" style="flex:1" onclick="rejectPay('${p.id}')">رفض</button></div></div>`).join('');
+  q('#a-pay-list').innerHTML = (allPays || []).length === 0 ? '<div style="color:var(--text2);font-size:13px;padding:10px 0">لا توجد طلبات معلقة</div>' : (allPays || []).map(p => `<div class="card-sm" style="margin-bottom:8px"><div style="margin-bottom:8px"><div style="font-size:13px;font-weight:700">${p.student_name || ''}</div><div style="font-size:11px;color:var(--text2)">${p.course_title || ''}</div><div style="font-size:11px;color:var(--text2)">طريقة الدفع/المرجع: ${p.method} · ${p.phone_or_ref || ''}</div></div><div class="flex" style="gap:8px"><button class="btn btn-green btn-sm" style="flex:1" onclick="approvePay('${p.id}','${p.student_id}','${p.course_id}')">إضافة الطالب</button><button class="btn btn-red btn-sm" style="flex:1" onclick="rejectPay('${p.id}')">رفض</button></div></div>`).join('');
   q('#a-students-preview').innerHTML = (students || []).slice(0, 5).map(s => `<div class="card-sm flex" style="gap:10px;margin-bottom:8px"><div class="av">${(s.name || '?')[0]}</div><div style="flex:1"><div style="font-size:14px;font-weight:600">${s.name}</div><div style="font-size:12px;color:var(--text2)">${s.email || ''}</div></div><span class="badge b-blue">${s.role}</span></div>`).join('');
   await loadAdminCourses(); await loadAdminStudents(); await loadAdminLive(); await loadAdminCerts(); await loadCertSelects();
 }
@@ -575,14 +560,14 @@ async function loadAdminData() {
 async function approvePay(pid, sid, cid) {
   await sb.from('payment_requests').update({ status: 'approved' }).eq('id', pid);
   await sb.from('enrollments').upsert({ student_id: sid, course_id: cid, payment_status: 'paid', progress: 0 }, { onConflict: 'student_id,course_id' });
-  toast('تم قبول الدفع وتفعيل الكورس'); loadAdminData();
+  toast('تمت إضافة الطالب للمجموعة'); loadAdminData();
 }
 
 async function rejectPay(pid) { await sb.from('payment_requests').update({ status: 'rejected' }).eq('id', pid); toast('تم رفض الطلب'); loadAdminData(); }
 
 async function loadAdminCourses() {
   const { data: courses } = await sb.from('courses').select('*').order('created_at', { ascending: false });
-  q('#a-courses-list').innerHTML = (courses || []).map(c => `<div class="card"><div class="between" style="margin-bottom:8px"><div class="flex" style="gap:10px"><div style="font-size:28px">${c.emoji || '📚'}</div><div><div style="font-size:14px;font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--text2)">${c.teacher_name || ''} · ${c.price_egp === 0 ? 'مجاني' : c.price_egp + ' ج.م'}</div></div></div></div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="openAddLecture('${c.id}')">+ محاضرة</button><button class="btn btn-red btn-sm" onclick="delCourse('${c.id}')">حذف</button></div></div>`).join('') || '<div style="color:var(--text2);font-size:14px">لا توجد كورسات</div>';
+  q('#a-courses-list').innerHTML = (courses || []).map(c => `<div class="card"><div class="between" style="margin-bottom:8px"><div class="flex" style="gap:10px"><div style="font-size:28px">${c.emoji || '📚'}</div><div><div style="font-size:14px;font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--text2)">${c.teacher_name || ''}</div></div></div></div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="openAddLecture('${c.id}')">+ تسجيل حصة</button><button class="btn btn-red btn-sm" onclick="delCourse('${c.id}')">حذف</button></div></div>`).join('') || '<div style="color:var(--text2);font-size:14px">لا توجد مجموعات بعد</div>';
 }
 
 async function loadAdminStudents() {
@@ -592,12 +577,12 @@ async function loadAdminStudents() {
 
 async function loadAdminLive() {
   const { data: sessions } = await sb.from('live_sessions').select('*').order('created_at', { ascending: false });
-  q('#a-live-list').innerHTML = (sessions || []).map(s => `<div class="card"><div class="between" style="margin-bottom:10px"><div><div style="font-size:14px;font-weight:700">${s.title}</div><div style="font-size:12px;color:var(--text2)">${s.teacher_name || ''}</div></div>${s.is_active ? '<div class="flex" style="gap:6px"><div class="ldot"></div><span style="font-size:12px;color:var(--red);font-weight:700">مباشر</span></div>' : '<span class="badge b-gray">غير نشط</span>'}</div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="window.open('https://meet.jit.si/${s.jitsi_room}','_blank')">فتح Jitsi</button><button class="btn btn-sm" style="background:${s.is_active ? 'var(--amber2)' : 'var(--green2)'};color:${s.is_active ? 'var(--amber)' : 'var(--green)'}" onclick="toggleLive('${s.id}',${s.is_active})">${s.is_active ? 'إيقاف' : 'تفعيل'}</button><button class="btn btn-red btn-sm" onclick="delLive('${s.id}')">حذف</button></div></div>`).join('') || '<div style="color:var(--text2);font-size:14px">لا توجد جلسات</div>';
+  q('#a-live-list').innerHTML = (sessions || []).map(s => `<div class="card"><div class="between" style="margin-bottom:10px"><div><div style="font-size:14px;font-weight:700">${s.title}</div><div style="font-size:12px;color:var(--text2)">${s.teacher_name || ''}</div></div>${s.is_active ? '<div class="flex" style="gap:6px"><div class="ldot"></div><span style="font-size:12px;color:var(--red);font-weight:700">مباشر الآن</span></div>' : '<span class="badge b-gray">منتهي/مجدول</span>'}</div><div class="flex" style="gap:8px"><button class="btn btn-blue btn-sm" style="flex:1" onclick="window.open('https://meet.jit.si/${s.jitsi_room}','_blank')">دخول البث</button><button class="btn btn-sm" style="background:${s.is_active ? 'var(--amber2)' : 'var(--green2)'};color:${s.is_active ? 'var(--amber)' : 'var(--green)'}" onclick="toggleLive('${s.id}',${s.is_active})">${s.is_active ? 'إنهاء البث' : 'بدء البث'}</button><button class="btn btn-red btn-sm" onclick="delLive('${s.id}')">حذف</button></div></div>`).join('') || '<div style="color:var(--text2);font-size:14px">لا يوجد بث حالياً</div>';
 }
 
-async function toggleLive(id, cur) { await sb.from('live_sessions').update({ is_active: !cur }).eq('id', id); toast(cur ? 'تم إيقاف البث' : 'تم تفعيل البث'); loadAdminLive(); }
-async function delLive(id) { if (!confirm('حذف؟')) return; await sb.from('live_sessions').delete().eq('id', id); toast('تم الحذف'); loadAdminLive(); }
-async function delCourse(id) { if (!confirm('حذف هذا الكورس؟')) return; await sb.from('courses').delete().eq('id', id); toast('تم حذف الكورس'); loadAdminCourses(); }
+async function toggleLive(id, cur) { await sb.from('live_sessions').update({ is_active: !cur }).eq('id', id); toast(cur ? 'تم إنهاء البث' : 'تم تفعيل البث'); loadAdminLive(); }
+async function delLive(id) { if (!confirm('تأكيد الحذف؟')) return; await sb.from('live_sessions').delete().eq('id', id); toast('تم الحذف'); loadAdminLive(); }
+async function delCourse(id) { if (!confirm('حذف هذه المجموعة؟ سيتم حذف كل ما يخصها!')) return; await sb.from('courses').delete().eq('id', id); toast('تم حذف المجموعة'); loadAdminCourses(); }
 
 async function loadAdminCerts() {
   const { data: certs } = await sb.from('certificates').select('*,profiles(name),courses(title)').order('issued_at', { ascending: false });
@@ -613,16 +598,16 @@ async function loadCertSelects() {
 
 async function issueCert() {
   const sid = q('#cert-student').value, cid = q('#cert-course').value, grade = parseInt(q('#cert-grade').value) || 0;
-  if (!sid || !cid) return toast('اختر طالباً وكورساً');
+  if (!sid || !cid) return toast('اختر الطالب والمجموعة');
   const cn = 'ENG-' + new Date().getFullYear() + '-' + Math.floor(Math.random() * 9000 + 1000);
   const { error } = await sb.from('certificates').insert({ student_id: sid, course_id: cid, grade, cert_number: cn });
   if (!error) { toast('تم إصدار الشهادة ' + cn); loadAdminCerts(); } else toast('خطأ: ' + error.message);
 }
 
 async function addCourse() {
-  const title = q('#nc-title').value.trim(); if (!title) return toast('أدخل اسم الكورس');
+  const title = q('#nc-title').value.trim(); if (!title) return toast('أدخل اسم المجموعة');
   const { error } = await sb.from('courses').insert({ title, description: q('#nc-desc').value.trim(), level: q('#nc-level').value, price_egp: parseInt(q('#nc-egp').value) || 0, price_usd: parseInt(q('#nc-usd').value) || 0, teacher_name: q('#nc-teacher').value.trim(), emoji: q('#nc-emoji').value.trim() || '📚', is_published: true });
-  if (!error) { toast('تم إضافة الكورس'); closeModal('m-add-course'); loadAdminCourses(); } else toast('خطأ: ' + error.message);
+  if (!error) { toast('تمت الإضافة'); closeModal('m-add-course'); loadAdminCourses(); } else toast('خطأ: ' + error.message);
 }
 
 function openAddLecture(cid) { q('#nl-course-id').value = cid; openModal('m-add-lecture'); }
@@ -630,15 +615,15 @@ function openAddLecture(cid) { q('#nl-course-id').value = cid; openModal('m-add-
 async function addLecture() {
   const title = q('#nl-title').value.trim(), cid = q('#nl-course-id').value;
   if (!title || !cid) return toast('أدخل العنوان');
-  const { error } = await sb.from('lectures').insert({ course_id: cid, title, youtube_id: q('#nl-yt').value.trim(), duration_minutes: parseInt(q('#nl-dur').value) || 30, order_num: parseInt(q('#nl-order').value) || 1, is_free: q('#nl-free').checked });
-  if (!error) { toast('تم إضافة المحاضرة'); closeModal('m-add-lecture'); loadAdminCourses(); } else toast('خطأ: ' + error.message);
+  const { error } = await sb.from('lectures').insert({ course_id: cid, title, youtube_id: q('#nl-yt').value.trim(), duration_minutes: parseInt(q('#nl-dur').value) || 60, order_num: parseInt(q('#nl-order').value) || 1, is_free: q('#nl-free').checked });
+  if (!error) { toast('تم رفع المحاضرة'); closeModal('m-add-lecture'); loadAdminCourses(); } else toast('خطأ: ' + error.message);
 }
 
 async function addLive() {
   const title = q('#nl-live-title').value.trim(), room = q('#nl-live-room').value.trim();
   if (!title || !room) return toast('أدخل العنوان والغرفة');
   const { error } = await sb.from('live_sessions').insert({ title, jitsi_room: room, teacher_name: q('#nl-live-teacher').value.trim(), scheduled_at: q('#nl-live-time').value || null, is_active: q('#nl-live-active').checked });
-  if (!error) { toast('تم جدولة البث'); closeModal('m-add-live'); loadAdminLive(); } else toast('خطأ: ' + error.message);
+  if (!error) { toast('تمت الجدولة'); closeModal('m-add-live'); loadAdminLive(); } else toast('خطأ: ' + error.message);
 }
 
 function aNav(pg) {
@@ -649,7 +634,7 @@ function aNav(pg) {
 
 async function loadDevStats() {
   const [a, b, c, d, e] = await Promise.all([sb.from('profiles').select('*', { count: 'exact', head: true }), sb.from('courses').select('*', { count: 'exact', head: true }), sb.from('enrollments').select('*', { count: 'exact', head: true }), sb.from('certificates').select('*', { count: 'exact', head: true }), sb.from('payment_requests').select('*', { count: 'exact', head: true }).eq('status', 'pending')]);
-  q('#dev-stats').innerHTML = `<div class="stat"><div class="stat-n" style="color:var(--blue)">${a.count || 0}</div><div class="stat-l">مستخدمون</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${b.count || 0}</div><div class="stat-l">كورسات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${c.count || 0}</div><div class="stat-l">تسجيلات</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${e.count || 0}</div><div class="stat-l">دفع معلق</div></div>`;
+  q('#dev-stats').innerHTML = `<div class="stat"><div class="stat-n" style="color:var(--blue)">${a.count || 0}</div><div class="stat-l">الطلاب</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">${b.count || 0}</div><div class="stat-l">المجموعات</div></div><div class="stat"><div class="stat-n" style="color:var(--amber)">${c.count || 0}</div><div class="stat-l">المنضمين</div></div><div class="stat"><div class="stat-n" style="color:var(--red)">${e.count || 0}</div><div class="stat-l">طلبات معلقة</div></div>`;
   const { data: users } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
   q('#dev-users').innerHTML = (users || []).map(u => `<div class="card-sm flex" style="gap:10px;margin-bottom:8px"><div class="av">${(u.name || '?')[0]}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${u.name}</div><div style="font-size:11px;color:var(--text2)">${u.email || ''}</div></div><span class="badge ${u.role === 'dev' ? 'b-red' : u.role === 'admin' ? 'b-amber' : 'b-blue'}">${u.role}</span></div>`).join('');
   const { data: courses } = await sb.from('courses').select('*').order('created_at', { ascending: false });
